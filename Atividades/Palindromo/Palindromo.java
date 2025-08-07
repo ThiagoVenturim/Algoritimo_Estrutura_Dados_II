@@ -25,6 +25,19 @@ class Palindromo{
     System.out.println("Sim");
     return;
     }
+
+    int palindromoRecursivo(String s, int tamanho, int index){
+        if(index >= tamanho / 2){
+            System.out.println("SIM");
+            return 1;
+        }else if(Character.toLowerCase(s.charAt(index)) != Character.toLowerCase(s.charAt(tamanho - index - 1))){
+            System.out.println("NAO");
+            return 0;
+        }
+        else{
+            return palindromoRecursivo(s, tamanho, index + 1);
+        }
+    }
 }
 
 class TestDrivePalindromo{
@@ -37,6 +50,7 @@ class TestDrivePalindromo{
             if(frase.compareToIgnoreCase("FIM")==0 ){ break;  }
             palindromo.setFrase(frase);
             palindromo.VerificarIterativo();
+            palindromo.palindromoRecursivo(frase, frase.length(), 0);
         }while(true);
     }
 }
