@@ -52,5 +52,7 @@ class TestDrivePalindromo{
             palindromo.VerificarIterativo();
             palindromo.palindromoRecursivo(frase, frase.length(), 0);
         }while(true);
-    }
+    }    
+ scanner.close();
+
 }
