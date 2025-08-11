@@ -29,7 +29,7 @@ int PalindromoRecursivo(char *s, int tamanho, int index){
         return 0;
     }
     else{
-        return palindromo(s, tamanho, index + 1);
+        return palindromo(s, tamanho, index +    1);
     }
 }
 int main(){

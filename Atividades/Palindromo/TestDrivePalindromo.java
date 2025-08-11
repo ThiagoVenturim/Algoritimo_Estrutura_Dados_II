@@ -40,7 +40,7 @@ class Palindromo{
     }
 }
 
-class TestDrivePalindromo{
+public class TestDrivePalindromo{
     public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
         Palindromo palindromo = new Palindromo();
@@ -52,7 +52,7 @@ class TestDrivePalindromo{
             palindromo.VerificarIterativo();
             palindromo.palindromoRecursivo(frase, frase.length(), 0);
         }while(true);
-    }    
- scanner.close();
 
+         scanner.close();
+    }    
 }

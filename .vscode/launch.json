@@ -1,0 +1,44 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "TestDrivePalindromo",
+      "request": "launch",
+      "mainClass": "TestDrivePalindromo",
+      "projectName": "Algoritimo_Estrutura_Dados_II_2cf0e9ff"
+    },
+    {
+      "type": "java",
+      "name": "Launch with Arguments Prompt",
+      "request": "launch",
+      "mainClass": "",
+      "args": "${command:SpecifyProgramArgs}"
+    },
+    {
+      "type": "java",
+      "request": "attach",
+      "name": "Attach by Process ID",
+      "processId": "${command:PickJavaProcess}"
+    },
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": false,
+      "externalConsole": true,
+      "cwd": ".",
+      "program": "build/Debug/outDebug",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    }
+  ]
+}
