@@ -9,19 +9,6 @@
       "projectName": "Algoritimo_Estrutura_Dados_II_2cf0e9ff"
     },
     {
-      "type": "java",
-      "name": "Launch with Arguments Prompt",
-      "request": "launch",
-      "mainClass": "",
-      "args": "${command:SpecifyProgramArgs}"
-    },
-    {
-      "type": "java",
-      "request": "attach",
-      "name": "Attach by Process ID",
-      "processId": "${command:PickJavaProcess}"
-    },
-    {
       "name": "C/C++ Runner: Debug Session",
       "type": "cppdbg",
       "request": "launch",
