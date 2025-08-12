@@ -30,7 +30,7 @@ class Maiusculo{
     }
 }
 
-class TesteDriveMaisculo{
+public class MaiusculoMain{
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Maiusculo maiusculo = new Maiusculo();

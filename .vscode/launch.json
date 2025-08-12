@@ -3,6 +3,20 @@
   "configurations": [
     {
       "type": "java",
+      "name": "PiramideMain",
+      "request": "launch",
+      "mainClass": "PiramideMain",
+      "projectName": "Algoritimo_Estrutura_Dados_II_2cf0e9ff"
+    },
+    {
+      "type": "java",
+      "name": "piramide",
+      "request": "launch",
+      "mainClass": "piramide",
+      "projectName": "Algoritimo_Estrutura_Dados_II_2cf0e9ff"
+    },
+    {
+      "type": "java",
       "name": "TestDrivePalindromo",
       "request": "launch",
       "mainClass": "TestDrivePalindromo",

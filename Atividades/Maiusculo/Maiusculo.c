@@ -11,7 +11,7 @@ int ContMaisRecursivo(char *str){
     return ContMaisRecursivo(str + 1);
 }
 
-int ContMaisIterativo(char *str){
+/*int ContMaisIterativo(char *str){
 int cont = 0;
     for( ; *str!= '\0'; str++){
         if(*str >= 'A' && *str <= 'Z'){
@@ -19,7 +19,7 @@ int cont = 0;
         }
     }
 return cont;
-}
+}*/
 
 int main(){
 char str[100];
@@ -27,7 +27,7 @@ char str[100];
         fgets(str, 100, stdin);
         if(strcmp(str, "FIM") == 0){ break;}
         printf("Recursivo: %d\n", ContMaisRecursivo(str));
-        printf("Iterativo: %d\n", ContMaisIterativo(str));
+       //printf("Iterativo: %d\n", ContMaisIterativo(str));
     }
 
 return 0;
