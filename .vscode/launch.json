@@ -5,6 +5,13 @@
       "type": "java",
       "name": "PiramideMain",
       "request": "launch",
+      "mainClass": "Atividades.Piramide.PiramideMain",
+      "projectName": "Algoritimo_Estrutura_Dados_II_2cf0e9ff"
+    },
+    {
+      "type": "java",
+      "name": "PiramideMain",
+      "request": "launch",
       "mainClass": "PiramideMain",
       "projectName": "Algoritimo_Estrutura_Dados_II_2cf0e9ff"
     },
