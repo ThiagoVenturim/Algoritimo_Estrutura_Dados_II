@@ -3,6 +3,20 @@
   "configurations": [
     {
       "type": "java",
+      "name": "PesquisaBinaria",
+      "request": "launch",
+      "mainClass": "Algoritmo.Pesquisa_Memoria_Principal.PesquisaBinaria",
+      "projectName": "Algoritimo_Estrutura_Dados_II_eaeb9093"
+    },
+    {
+      "type": "java",
+      "name": "SelecaoMain",
+      "request": "launch",
+      "mainClass": "Algoritmo.Selecao.SelecaoMain",
+      "projectName": "Algoritimo_Estrutura_Dados_II_eaeb9093"
+    },
+    {
+      "type": "java",
       "name": "PiramideMain",
       "request": "launch",
       "mainClass": "Atividades.Piramide.PiramideMain",

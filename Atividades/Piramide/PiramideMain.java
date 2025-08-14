@@ -39,7 +39,7 @@ class Piramide{
 }
 
 
-}809585
+}
 
 class PiramideMain{
     public static void main(String[] args){

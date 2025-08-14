@@ -1,19 +1,19 @@
 package Algoritmo.Pesquisa_Memoria_Principal;
 import java.util.Scanner;
 
-class PesquisaBinaria{
+class Pesquisa{
     private int[] vetor;
     private int tamanho;
 
-    public PesquisaBinaria(){
-        this.tamanho = 0;
-        this.vetor = new int[tamanho];
+    public Pesquisa(){ }
+    public Pesquisa(int vetor[],int tamanho){
+        this.tamanho=tamanho;
+        this.vetor = vetor; 
     }
 
-    public void setVetorTamanho(int[] vetor) {
-        this.vetor = vetor;
-        this.tamanho = vetor.length;
-    }
+    public void setTamanho(int tamanho){if(tamanho>0){this.tamanho=tamanho;}}
+    public void setVetor(int[] vetor) { this.vetor = vetor; }
+    public int getTamanho(){return tamanho;}
 
     public boolean verificador(int num){
         for( int esq=0, dir = this.tamanho - 1; esq<=dir ;){
@@ -29,14 +29,27 @@ class PesquisaBinaria{
         return false;
     }
 }
-class testDrivePesquisaBinaria{
+class PesquisaBinaria{
     public  static void main(String [] args){
+
         Scanner scanner = new Scanner(System.in);
-        PesquisaBinaria pesquisa = new PesquisaBinaria();
-        int[] vetor = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-        pesquisa.setVetorTamanho(vetor);
+        Pesquisa pesquisa = new Pesquisa();
+        
+        System.out.print("Digite o tamanho do vetor: ");
+        int tamanho= scanner.nextInt();
+        pesquisa.setTamanho(tamanho);
+        
+        int vetor[]= new int[tamanho];
+        System.out.print("Preencha o vetor: ");
+        for(int i = 0 ; i<tamanho; i++){
+            vetor[i]= scanner.nextInt();
+        }
+        pesquisa.setVetor(vetor);
+
         System.out.print("Digite um número para pesquisar: ");
         int num = scanner.nextInt();
         System.out.println(pesquisa.verificador(num));  
+
+        scanner.close();
     }
 }
