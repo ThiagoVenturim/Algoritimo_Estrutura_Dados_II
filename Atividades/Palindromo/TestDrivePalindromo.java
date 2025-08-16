@@ -18,20 +18,20 @@ class Palindromo{
         int tamanho= frase.length(); // passar o tamanho da string
         for(int i =0; i< tamanho/2 ; i++ ){ //inicio do loop para verificar 
             if(frase.charAt(i) != frase.charAt(tamanho -1 - i) ){
-                System.out.println("NAO");
+                //System.out.println("NAO");
                 return;
             }
         }
-    System.out.println("Sim");
+    //System.out.println("SIM");
     return;
     }
 
     int palindromoRecursivo(String s, int tamanho, int index){
         if(index >= tamanho / 2){
-            System.out.println("SIM");
+           System.out.println("SIM");
             return 1;
-        }else if(Character.toLowerCase(s.charAt(index)) != Character.toLowerCase(s.charAt(tamanho - index - 1))){
-            System.out.println("NAO");
+        }else if((s.charAt(index)) != (s.charAt(tamanho - index - 1))){
+            System.out.println("NAO" );
             return 0;
         }
         else{
@@ -49,7 +49,7 @@ public class TestDrivePalindromo{
             frase = scanner.nextLine();
             if(frase.compareToIgnoreCase("FIM")==0 ){ break;  }
             palindromo.setFrase(frase);
-            palindromo.VerificarIterativo();
+            //palindromo.VerificarIterativo();
             palindromo.palindromoRecursivo(frase, frase.length(), 0);
         }while(true);
 

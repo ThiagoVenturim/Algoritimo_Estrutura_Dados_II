@@ -24,7 +24,7 @@ int PalindromoRecursivo(char *s, int tamanho, int index){
     if(index >= tamanho / 2){
         printf("SIM\n");
         return 1;
-    }else if(tolower(s[index]) != tolower(s[tamanho - index - 1])){
+    }else if((s[index]) != (s[tamanho - index - 1])){
         printf("NAO\n");
         return 0;
     }
@@ -32,6 +32,7 @@ int PalindromoRecursivo(char *s, int tamanho, int index){
         return palindromo(s, tamanho, index +    1);
     }
 }
+
 int main(){
     String s;
     

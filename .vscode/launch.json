@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "TestDrivePalindromo",
+      "request": "launch",
+      "mainClass": "TestDrivePalindromo",
+      "projectName": "Algoritimo_Estrutura_Dados_II_eaeb9093"
+    },
+    {
+      "type": "java",
       "name": "PesquisaBinaria",
       "request": "launch",
       "mainClass": "Algoritmo.Pesquisa_Memoria_Principal.PesquisaBinaria",
@@ -50,8 +57,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": ".",
-      "program": "build/Debug/outDebug",
+      "cwd": "c:/Users/thiag/OneDrive/Área de Trabalho/Projetos/Algoritimo_Estrutura_Dados_II/Atividades/Palindromo",
+      "program": "c:/Users/thiag/OneDrive/Área de Trabalho/Projetos/Algoritimo_Estrutura_Dados_II/Atividades/Palindromo/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
