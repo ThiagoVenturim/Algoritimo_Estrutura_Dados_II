@@ -28,8 +28,27 @@ class Pesquisa{
         }
         return false;
     }
+
+    public boolean chamarRecursividade(int x){
+        return verificadorRecursivo(vetor, x ,  tamanho-1, 0);
+    }
+
+    private boolean verificadorRecursivo(int []vetor, int x, int dir, int esq){
+        if(esq>dir){
+            return false;
+        }else{
+            int meio = (dir+esq)/2;
+            if(vetor[meio]== x){
+                return true;
+            }else if(vetor[meio] < x ){
+                return verificadorRecursivo(vetor, x, dir, meio+1);
+            }else{
+                return verificadorRecursivo(vetor, x,  meio-1,esq);
+            }
+        }
+    }
 }
-class PesquisaBinaria{
+public class PesquisaBinaria{
     public  static void main(String [] args){
 
         Scanner scanner = new Scanner(System.in);
@@ -49,7 +68,7 @@ class PesquisaBinaria{
         System.out.print("Digite um número para pesquisar: ");
         int num = scanner.nextInt();
         System.out.println(pesquisa.verificador(num));  
-
+        System.out.println("Recursivo"+ pesquisa.chamarRecursividade(num));
         scanner.close();
     }
 }

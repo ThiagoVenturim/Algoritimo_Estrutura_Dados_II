@@ -1,5 +1,7 @@
 import java.util.Scanner;
 
+import Algoritmo.Bolha;
+
 class Bolha{
     private int vetor[];
     private int tamanho;
