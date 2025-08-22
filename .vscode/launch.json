@@ -3,6 +3,20 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Principal",
+      "request": "launch",
+      "mainClass": "Algoritmo.Principal",
+      "projectName": "Algoritimo_Estrutura_Dados_II_eaeb9093"
+    },
+    {
+      "type": "java",
+      "name": "PiramideMain",
+      "request": "launch",
+      "mainClass": "Atividades.Piramide.PiramideMain",
+      "projectName": "Algoritimo_Estrutura_Dados_II_eaeb9093"
+    },
+    {
+      "type": "java",
       "name": "TestDrivePalindromo",
       "request": "launch",
       "mainClass": "TestDrivePalindromo",
@@ -57,8 +71,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/thiag/OneDrive/Área de Trabalho/Projetos/Algoritimo_Estrutura_Dados_II/Atividades/Palindromo",
-      "program": "c:/Users/thiag/OneDrive/Área de Trabalho/Projetos/Algoritimo_Estrutura_Dados_II/Atividades/Palindromo/build/Debug/outDebug",
+      "cwd": "c:/Users/thiag/OneDrive/Área de Trabalho/Projetos/Algoritimo_Estrutura_Dados_II/Atividades/Labs/Combinador",
+      "program": "c:/Users/thiag/OneDrive/Área de Trabalho/Projetos/Algoritimo_Estrutura_Dados_II/Atividades/Labs/Combinador/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

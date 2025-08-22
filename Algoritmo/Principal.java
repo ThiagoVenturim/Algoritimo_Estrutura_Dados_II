@@ -21,7 +21,7 @@ class Geracao{
     }
 
     public void decrescente(){
-        for(int i =0. i<n ; i++){arrays[i]= n-1-i; }
+        for(int i =0;i<n ; i++){arrays[i]= n-1-i; }
     }
 
     public void aleatorio(){
@@ -143,13 +143,13 @@ public class Principal{
         double inicio, fim;
 
         //-----Iniciando Algoritmos Geral-----
-        //algoritmo = new Bolha(n);
+        algoritmo = new Bolha(n);
         //algoritmo = new Countingsort(n);
         //algoritmo = new Heapsort(n);
         //algoritmo = new Inseracao(n);
         //algoritmo = new Mergesort(n);
         //algoritmo = new Quicksort(n);
-        algoritmo = new Selecao(n);
+        //algoritmo = new Selecao(n);
         //algoritmo = new Shellsort(n);
 
         //-----Geracao do Conjunto-----
@@ -167,7 +167,7 @@ public class Principal{
 
         // Mostrar Conjunto ordenado e tempo
         System.out.printf("Tempo para ordermar" + (fim- inicio)/1000.0 + "s");
-        System.out.println("isOrdenado: "+ algoritmo.isOrdenado(););
+        System.out.println("isOrdenado: "+ algoritmo.isOrdenado());
 
 
     }

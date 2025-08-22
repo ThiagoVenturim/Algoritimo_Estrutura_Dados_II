@@ -1,4 +1,5 @@
-package Algoritmo.Selecao;
+package Atividades.Selecao;
+
 import java.util.Scanner;
 
 class Selecao{
