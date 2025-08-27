@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "InverterMain",
+      "request": "launch",
+      "mainClass": "Atividades.Labs.Inverter.InverterMain",
+      "projectName": "Algoritimo_Estrutura_Dados_II_eaeb9093"
+    },
+    {
+      "type": "java",
       "name": "IsMain",
       "request": "launch",
       "mainClass": "Atividades.Labs.Is.IsMain",
