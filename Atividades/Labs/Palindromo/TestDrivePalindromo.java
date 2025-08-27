@@ -1,60 +1,80 @@
-
-
 import java.util.Scanner;
 
-class Palindromo{
+class Palindromo {
     private String frase;
 
-    public Palindromo(){
-        this.frase = " ";
+    public Palindromo() {
+        this.frase = "";
     }
 
-    public Palindromo(String frase){
+    public Palindromo(String frase) {
         this.frase = frase;
     }
 
-    public void setFrase(String frase) {  this.frase = frase; }
-    
-    public void VerificarIterativo(){
-        frase = frase.toLowerCase(); // usar tolower para deicar todas as letras minusculas
-        int tamanho= frase.length(); // passar o tamanho da string
-        for(int i =0; i< tamanho/2 ; i++ ){ //inicio do loop para verificar 
-            if(frase.charAt(i) != frase.charAt(tamanho -1 - i) ){
-                //System.out.println("NAO");
-                return;
-            }
-        }
-    //System.out.println("SIM");
-    return;
+    public void setFrase(String frase) {
+        this.frase = frase;
     }
 
-    int palindromoRecursivo(String s, int tamanho, int index){
-        if(index >= tamanho / 2){
-           System.out.println("SIM");
-            return 1;
-        }else if((s.charAt(index)) != (s.charAt(tamanho - index - 1))){
-            System.out.println("NAO" );
-            return 0;
+    // Método iterativo (Questão 1)
+    public boolean verificarIterativo() {
+        int tamanho = frase.length();
+        boolean resp = true;
+        for (int i = 0; i < tamanho / 2; i++) {
+            if (frase.charAt(i) != frase.charAt(tamanho - 1 - i)) {
+                resp = false;
+                break;
+            }
         }
-        else{
-            return palindromoRecursivo(s, tamanho, index + 1);
+        return resp;
+    }
+
+    // Método recursivo (versão pública que inicializa)
+    public boolean palindromoRecursivo(String s) {
+        return palindromoRecursivo(s, 0);
+    }
+
+    // Método recursivo real
+    private boolean palindromoRecursivo(String s, int i) {
+        boolean resp;
+        int j = s.length() - 1 - i;
+        if (i >= j) {
+            resp = true;
+        } else if (s.charAt(i) != s.charAt(j)) {
+            resp = false;
+        } else {
+            resp = palindromoRecursivo(s, i + 1);
         }
+        return resp;
     }
 }
 
-public class TestDrivePalindromo{
-    public static void main(String[] args){
+public class TestDrivePalindromo {
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Palindromo palindromo = new Palindromo();
         String frase;
-        do{
-            frase = scanner.nextLine();
-            if(frase.compareToIgnoreCase("FIM")==0 ){ break;  }
-            palindromo.setFrase(frase);
-            //palindromo.VerificarIterativo();
-            palindromo.palindromoRecursivo(frase, frase.length(), 0);
-        }while(true);
 
-         scanner.close();
-    }    
+        do {
+            frase = scanner.nextLine();
+            if (frase.length() == 3 && 
+                frase.charAt(0) == 'F' && 
+                frase.charAt(1) == 'I' && 
+                frase.charAt(2) == 'M') {
+                break; // leitura termina em "FIM"
+            }
+
+            palindromo.setFrase(frase);
+
+            // Versão iterativa:
+            // if (palindromo.verificarIterativo()) System.out.println("SIM");
+            // else System.out.println("NAO");
+
+            // Versão recursiva:
+            if (palindromo.palindromoRecursivo(frase)) System.out.println("SIM");
+            else System.out.println("NAO");
+
+        } while (true);
+
+        scanner.close();
+    }
 }

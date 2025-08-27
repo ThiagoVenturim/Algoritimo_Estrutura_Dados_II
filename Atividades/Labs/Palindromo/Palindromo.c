@@ -1,39 +1,39 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#define MAX 400
 
-
-typedef struct{
-    char frase[100];
-    int tamanho;
-} String;
-
-int PalindromoRecursivo(char *s, int tamanho, int index){
-    if(index >= tamanho / 2){
-        printf("SIM\n");
-        return 1;
-    } else if((s[index]) != (s[tamanho - index - 1])){
-        printf("NAO\n");
-        return 0;
-    } else {
-        return PalindromoRecursivo(s, tamanho, index + 1);
-    }
+// Função principal que inicializa a recursão
+int ehPalindromo(char *str) {
+    return ehPalindromoRec(str, 0, strlen(str) - 1);
 }
 
-int main(){
-    String s;
-    
-    while(1){
-        fgets(s.frase, 100, stdin);
+// Função recursiva
+int ehPalindromoRec(char *str, int i, int j) {
+    int resp;
+    if (i > j) {
+        resp = 1; // SIM
+    } else if (str[i] != str[j]) {
+        resp = 0; // NAO
+    } else {
+        resp = ehPalindromoRec(str, i + 1, j - 1);
+    }
+    return resp;
+}
 
-        // remover \n
-        s.frase[strcspn(s.frase, "\n")] = '\0';
-        s.tamanho = strlen(s.frase);
+int main() {
+    char *str = (char *)malloc(MAX * sizeof(char));// alocar dinamicamente a memoria pra string
+    if (str == NULL) return 1; // se for null retornar zero 
 
-        if(strcmp(s.frase, "FIM") == 0) break;
-
-        PalindromoRecursivo(s.frase, s.tamanho, 0);
+    while (fgets(str, MAX, stdin) != NULL && strncmp(str, "FIM", 3) != 0) { //loop com leitrua no incio se for fim sai do codigo
+        str[strcspn(str, "\n")] = '\0'; // remove '\n'
+        if (ehPalindromo(str)) {
+            printf("SIM\n");
+        } else {
+            printf("NAO\n");
+        }
     }
 
+    free(str); // liberar memoria
     return 0;
 }

@@ -3,6 +3,27 @@
   "configurations": [
     {
       "type": "java",
+      "name": "IsMain",
+      "request": "launch",
+      "mainClass": "Atividades.Labs.Is.IsMain",
+      "projectName": "Algoritimo_Estrutura_Dados_II_eaeb9093"
+    },
+    {
+      "type": "java",
+      "name": "AlteracaoMain",
+      "request": "launch",
+      "mainClass": "Atividades.AlteracaoMain",
+      "projectName": "Algoritimo_Estrutura_Dados_II_eaeb9093"
+    },
+    {
+      "type": "java",
+      "name": "CesarMain",
+      "request": "launch",
+      "mainClass": "Atividades.Labs.Cesar.CesarMain",
+      "projectName": "Algoritimo_Estrutura_Dados_II_eaeb9093"
+    },
+    {
+      "type": "java",
       "name": "Principal",
       "request": "launch",
       "mainClass": "Algoritmo.Principal",
