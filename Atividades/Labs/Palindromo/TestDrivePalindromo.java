@@ -1,3 +1,4 @@
+package Atividades.Palindromo;
 import java.util.Scanner;
 
 class Palindromo {

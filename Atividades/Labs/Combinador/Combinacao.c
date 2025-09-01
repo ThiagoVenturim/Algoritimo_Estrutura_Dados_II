@@ -1,32 +1,31 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
-void combinar(char *str1, char *str2) {
+#define MAX 100
 
-    int tamanho = strlen(str1) + strlen(str2);
-    char new[tamanho + 1]; // +1 para o '\0'
-    int j = 0;
 
-    // percorre enquanto ainda houver caracteres em uma das duas
-    for (int i = 0; str1[i] != '\0' || str2[i] != '\0'; i++) {
-        if (str1[i] != '\0') {
-            new[j++] = str1[i];
+
+
+int main(){
+    char primeira[MAX];
+    char segunda[MAX];
+
+    while(scanf(" %s %s", primeira, segunda)==2){
+
+        for(int i =0, j=0 ; primeira[i]!= '\0' || segunda[j]!= '\0';){
+            if( primeira[i]!= '\0'){
+                printf("%c", primeira[i]);
+                i++;
+            }
+            if(segunda[j]!= '\0'){
+                printf("%c", segunda[j]);
+                j++;
+    
+            }
         }
-        if (str2[i] != '\0') {
-            new[j++] = str2[i];
-        }
+    printf("\n");
     }
 
-    new[j] = '\0'; // encerra string
-    printf("Nova String: %s\n", new);
-}
-
-int main() {
-    char str1[30], str2[30];
-
-    scanf("%s %s", str1, str2);
-    combinar(str1, str2);
-
-    return 0;
+return 0;
 }
