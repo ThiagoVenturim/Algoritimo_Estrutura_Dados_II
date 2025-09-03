@@ -3,6 +3,34 @@
   "configurations": [
     {
       "type": "java",
+      "name": "SortMain",
+      "request": "launch",
+      "mainClass": "SortMain",
+      "projectName": "Algoritimo_Estrutura_Dados_II_eaeb9093"
+    },
+    {
+      "type": "java",
+      "name": "SortMain",
+      "request": "launch",
+      "mainClass": "Atividades.Labs.Sort.SortMain",
+      "projectName": "Algoritimo_Estrutura_Dados_II_eaeb9093"
+    },
+    {
+      "type": "java",
+      "name": "AnagramaMain",
+      "request": "launch",
+      "mainClass": "AnagramaMain",
+      "projectName": "Algoritimo_Estrutura_Dados_II_eaeb9093"
+    },
+    {
+      "type": "java",
+      "name": "AnagramaMain",
+      "request": "launch",
+      "mainClass": "Atividades.Labs.Anagrama.AnagramaMain",
+      "projectName": "Algoritimo_Estrutura_Dados_II_eaeb9093"
+    },
+    {
+      "type": "java",
       "name": "InverterMain",
       "request": "launch",
       "mainClass": "Atividades.Labs.Inverter.InverterMain",
