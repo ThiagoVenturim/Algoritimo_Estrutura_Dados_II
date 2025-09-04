@@ -51,7 +51,7 @@ class Algoritmo{
         this.linha= str.toString();
     }
 
-    private void resolverString(String linha){ // metodo que vai chamar os outros metodos para resolver a opercao
+    private void resolverString(String linha){ /-/ metodo que vai chamar os outros metodos para resolver a opercao
         for(int i = linha.length()-1; i> 0; i--){
             if(linha.charAt(i)== '('){
                 String operador = extracaoOperadores(linha, i);
@@ -152,7 +152,6 @@ public class AlgoritmoMain{
         int num; // numero de variaveis
 
         while( (num = scanner.nextInt())!= 0){ // loop para rodar ate a condicição inicial ser 0
-           
             boolean[] variavies = new boolean[num]; // array de variaveis
            
             for(int i =0; i<num; i++){

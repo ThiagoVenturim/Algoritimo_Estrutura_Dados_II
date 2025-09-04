@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "TestMain",
+      "request": "launch",
+      "mainClass": "TestMain",
+      "projectName": "Algoritimo_Estrutura_Dados_II_eaeb9093"
+    },
+    {
+      "type": "java",
       "name": "SortMain",
       "request": "launch",
       "mainClass": "SortMain",
