@@ -5,7 +5,7 @@ class Lista{
     private int n;
 
     public Lista(){
-        array = new int[6];
+        array = new int[6]; 
         n = 0;
     }
 
@@ -75,13 +75,12 @@ class Lista{
 public class ListaMain{
     public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
-        Lista lista = new Lista();
         int x, pos, tamanho, escolha;
         String linha;
 
         System.out.print("Digite o tamanho da lista: ");
         tamanho = scanner.nextInt();
-        lista = new Lista(tamanho);
+        Lista lista = new Lista(tamanho);
 
         while(true){
              escolha = scanner.nextInt();
@@ -123,6 +122,6 @@ public class ListaMain{
                     System.out.println("Opcao invalida!");
             }
         }
-         
+        scanner.close();
     }
 }

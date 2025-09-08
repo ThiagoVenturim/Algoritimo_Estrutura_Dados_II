@@ -18,7 +18,7 @@ public String recursividade(String str, int index){
 
 
 public String resolverExpressao(String str, int index){
-    //System.out.println("Resolvendo : '(' em " + index);
+    77System.out.println("Resolvendo : '(' em " + index);
 
     StringBuilder novaStr = new StringBuilder();
 
@@ -40,7 +40,7 @@ public String resolverExpressao(String str, int index){
         if (str.charAt(j) == '(') parenteses++;
         else if (str.charAt(j) == ')') parenteses--;
     }
-    //System.out.println("Operador: " + operador + ", índice fechamento: " + j);
+    System.out.println("Operador: " + operador + ", índice fechamento: " + j);
     String conteudo = str.substring(index + 1, j); // argumentos entre parênteses
     char operacao = '0';
 
@@ -69,8 +69,8 @@ public String resolverExpressao(String str, int index){
     novaStr.append(operacao);
     novaStr.append(str.substring(j + 1));
 
-    //System.out.println("Substituindo " + operador + " por " + operacao);
-    //System.out.println("Nova string: " + novaStr);
+    System.out.println("Substituindo " + operador + " por " + operacao);
+    System.out.println("Nova string: " + novaStr);
 
     return novaStr.toString();
 }
