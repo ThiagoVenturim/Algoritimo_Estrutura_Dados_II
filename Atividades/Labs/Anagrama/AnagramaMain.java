@@ -1,5 +1,7 @@
 
 import java.util.Scanner;
+
+import Atividades.Labs.Inverter.MyIO;
 class Anagrama{
     private String palavra1;
     private String palavra2;
