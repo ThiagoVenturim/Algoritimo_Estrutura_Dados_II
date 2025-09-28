@@ -1,0 +1,111 @@
+-------Pre Ordenado------
+
+ Testando com 100
+quickSorFi: 99000 ns
+quickSorFiIn: 176000 ns
+quickSortMediana: 51900 ns
+quickSortRandom: 786100 ns
+
+ Testando com 250
+quickSorFi: 630300 ns
+quickSorFiIn: 120600 ns
+quickSortMediana: 78700 ns
+quickSortRandom: 185600 ns
+
+ Testando com 500
+quickSorFi: 437400 ns
+quickSorFiIn: 362200 ns
+quickSortMediana: 66900 ns
+quickSortRandom: 217600 ns
+
+ Testando com 1000
+quickSorFi: 1542600 ns
+quickSorFiIn: 1424700 ns
+quickSortMediana: 115200 ns
+quickSortRandom: 112100 ns
+
+ Testando com 5000
+quickSorFi: 51044900 ns
+quickSorFiIn: 27555600 ns
+quickSortMediana: 234700 ns
+quickSortRandom: 418900 ns
+
+ Testando com 10000
+quickSorFi: 56429100 ns
+quickSorFiIn: 82087700 ns
+quickSortMediana: 3972200 ns
+quickSortRandom: 7095000 ns
+-------Aleatorio------
+
+Testando com 100
+quickSorFi: 255300 ns
+quickSorFiIn: 180900 ns
+quickSortMediana: 47600 ns
+quickSortRandom: 1343700 ns
+
+Testando com 250
+quickSorFi: 407700 ns
+quickSorFiIn: 92200 ns
+quickSortMediana: 191300 ns
+quickSortRandom: 136300 ns
+
+Testando com 500
+quickSorFi: 311500 ns
+quickSorFiIn: 71600 ns
+quickSortMediana: 291800 ns
+quickSortRandom: 314700 ns
+
+Testando com 1000
+quickSorFi: 176400 ns
+quickSorFiIn: 230100 ns
+quickSortMediana: 1213200 ns
+quickSortRandom: 709700 ns
+
+Testando com 5000
+quickSorFi: 579700 ns
+quickSorFiIn: 758600 ns
+quickSortMediana: 4008200 ns
+quickSortRandom: 4478400 ns
+
+Testando com 10000
+quickSorFi: 1881800 ns
+quickSorFiIn: 1849700 ns
+quickSortMediana: 8220300 ns
+quickSortRandom: 15896300 ns
+------- Arrays Quase Ordenados ------
+
+Testando com 100 elementos quase ordenados
+quickSorFi: 40300 ns
+quickSorFiIn: 30600 ns
+quickSortMediana: 26300 ns
+quickSortRandom: 28500 ns
+
+Testando com 250 elementos quase ordenados
+quickSorFi: 38000 ns
+quickSorFiIn: 21400 ns
+quickSortMediana: 66500 ns
+quickSortRandom: 89200 ns
+
+Testando com 500 elementos quase ordenados
+quickSorFi: 84900 ns
+quickSorFiIn: 60600 ns
+quickSortMediana: 137500 ns
+quickSortRandom: 156600 ns
+
+Testando com 1000 elementos quase ordenados
+quickSorFi: 210000 ns
+quickSorFiIn: 367700 ns
+quickSortMediana: 433600 ns
+quickSortRandom: 482000 ns
+
+Testando com 5000 elementos quase ordenados
+quickSorFi: 1010500 ns
+quickSorFiIn: 820600 ns
+quickSortMediana: 1680500 ns
+quickSortRandom: 2255300 ns
+
+Testando com 10000 elementos quase ordenados
+quickSorFi: 2328600 ns
+quickSorFiIn: 2674200 ns
+quickSortMediana: 6641400 ns
+quickSortRandom: 5194900 ns

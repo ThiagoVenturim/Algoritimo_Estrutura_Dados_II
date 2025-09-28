@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.util.Locale;
-
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 class RicoMate{
 
     private int tamanho;
@@ -33,12 +34,14 @@ class RicoMate{
         }
     }
     
-    public void reiMate(){
+    public void reiMate(DecimalFormat df){
+
         int aux = (int)(litro/copo);
         int i= aux%tamanho;
         float resto = litro- copo*aux ;
-        
-        System.out.printf("%s %.1f", nomes[i], resto);
+        String formatado = String.format("%.1f", resto);
+       
+        System.out.println(nomes[i] +" " + df.format(resto));
         
     
     }
@@ -48,6 +51,8 @@ public class RicoMateMain{
     public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
         scanner.useLocale(Locale.US);
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
+        DecimalFormat df = new DecimalFormat("#.##", symbols);
         
         int entrada = scanner.nextInt();
         float  litro = scanner.nextFloat();
@@ -61,8 +66,8 @@ public class RicoMateMain{
         String str = scanner.nextLine();
 
         rc.setNomes(str);
-        rc.mostrarNomes();
-        rc.reiMate();
+        //rc.mostrarNomes();
+        rc.reiMate(df);
 
 
         scanner.close();
