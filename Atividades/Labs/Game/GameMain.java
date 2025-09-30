@@ -39,14 +39,68 @@ class Function{
         return numero;
     }   
 
-   public float transformarFloat(String linha) {
-    String limpa = linha.trim(); 
-  
-    limpa = limpa.replace(',', '.');
-    
- 
-    return Float.parseFloat(limpa);
-}
+    public float transformarFloat(String linha) {
+        String limpa = linha.trim(); 
+        limpa = limpa.replace(',', '.');
+        return Float.parseFloat(limpa);
+    }
+
+    public String formatarData(String date){
+        String mes= "";
+        for(int i=0; i<3 && i<date.length(); i++){  mes += date.charAt(i);}
+        switch (mes) {
+            case "Jan":
+                mes= "01";
+                break;
+            case "Feb":
+                mes= "02";
+                break;
+            case "Mar":
+                mes= "03";
+                break;
+            case "Apr":
+                mes= "04";
+                break;
+            case "May":
+                mes= "05";
+                break;
+            case "Jun":
+                mes= "06";
+                break;
+            case "Jul":
+                mes="07";
+                break;
+            case "Aug":
+                mes="08";
+                break;
+            case "Sep":
+                mes="09";
+                break;
+            case "Oct":
+                mes="10";
+                break;
+            case "Nov":
+                mes="11";
+                break;
+            case "Dec":
+                mes="12";
+                break;
+            default:
+                mes="01";
+                break;
+        }
+        StringBuilder completo = new StringBuilder();
+        for( int i=4; i<date.length(); i++){
+            if (date.charAt(i) == ','){
+                completo.append("/"+ mes + "/");
+                i+=2;
+                
+            }
+            completo.append(date.charAt(i));
+        }
+
+        return completo.toString();
+    }
 
 }
 
@@ -74,7 +128,7 @@ class Game extends Function{
 
     public void setId(int id) { this.id = id; } 
     public void setName(String name){this.name=name; }
-    public void setRelaseDate(String releaseDate){ this.releaseDate=releaseDate;}
+    public void setRelaseDate(String releaseDate){ this.releaseDate=formatarData(releaseDate);}
     public void setEstimatedOwners(int estimatedOwners){ this.estimatedOwners=estimatedOwners; }
     public void setPrice(float price){this.price=price; }
     public void setSuppportedLanguages(String[] suppportedLanguages, int tamanho){ 
@@ -124,11 +178,12 @@ class Game extends Function{
    
     
     private void imprimirArray(String titulo, String[] array) {
-        System.out.println("----" + titulo + ":----");
+        System.out.print( titulo + ": ");
         if (array != null) {
             for (String elem : array) {
-                System.out.println(elem);
+                System.out.print(elem + " ");
             }
+            System.out.println();
         }
     }
 
@@ -184,7 +239,7 @@ class Leitura extends Game{
             int aspas = 0;
             for( ; j< linha.length() && parar ; j++){
                 //System.out.println("Caractere: " + linha.charAt(j) + " - " + j);
-                if( linha.charAt(j) == ',' && (aspas == 0 ||  (opcao !=2 && opcao != 1 && opcao !=5 && opcao < 9))){
+                if( linha.charAt(j) == ',' && (aspas == 0 ||  (opcao !=2 && opcao != 1 &&opcao !=5 && opcao < 9))){
                     parar = false;
                 }else if( linha.charAt(j) == '\"'){
                     aspas++;
@@ -268,18 +323,20 @@ public class GameMain {
     public static void main(String[] args) {
          Scanner scanner = new Scanner(System.in);
 
-        // Ignora a primeira linha (cabeçalho)
-       // if (scanner.hasNextLine()) {
-          //  scanner.nextLine();
-       // }
+
+         if (scanner.hasNextLine()) {
+          scanner.nextLine();
+        }
 
         Leitura game;
-        for (int i=0; i<1800 && scanner.hasNextLine(); i++){
-            System.out.println("----- Jogo " + (i+1) + " -----");
+
+        for (int i=0; i<1848 && scanner.hasNextLine(); i++){
+            System.out.println("----- Jogo: " + (i+1) + " -----");
             String linha = scanner.nextLine();
             game = new Leitura(linha);
             game.chamarMetodo();
             game.imprimir();
+            System.out.println("");
         }
         scanner.close();
     }   
