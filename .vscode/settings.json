@@ -57,6 +57,9 @@
   "C_Cpp_Runner.useLinkTimeOptimization": false,
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "files.associations": {
-    "stdio.h": "c"
+    "*.dbclient-js": "javascript",
+    "stdio.h": "c",
+    "sstream": "c",
+    "ratio": "c"
   }
 }
