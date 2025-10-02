@@ -1,6 +1,11 @@
 import java.util.*;
-
 class Function{
+
+     private void swap(int i, int j , Game []game){
+        Game temp = game[i];
+        game[i] = game[j];
+        game[j] = temp;
+    }
 
     public String[] separarPalavras(String linha, int tamanho){
         String[] palavras = new String[tamanho];
@@ -49,61 +54,67 @@ class Function{
         String mes= "";
         for(int i=0; i<3 && i<date.length(); i++){  mes += date.charAt(i);}
         switch (mes) {
-            case "Jan":
-                mes= "01";
-                break;
-            case "Feb":
-                mes= "02";
-                break;
-            case "Mar":
-                mes= "03";
-                break;
-            case "Apr":
-                mes= "04";
-                break;
-            case "May":
-                mes= "05";
-                break;
-            case "Jun":
-                mes= "06";
-                break;
-            case "Jul":
-                mes="07";
-                break;
-            case "Aug":
-                mes="08";
-                break;
-            case "Sep":
-                mes="09";
-                break;
-            case "Oct":
-                mes="10";
-                break;
-            case "Nov":
-                mes="11";
-                break;
-            case "Dec":
-                mes="12";
-                break;
-            default:
-                mes="01";
-                break;
+            case "Jan": mes= "01"; break;
+            case "Feb": mes= "02"; break;
+            case "Mar": mes= "03"; break;
+            case "Apr": mes= "04"; break;
+            case "May": mes= "05"; break;
+            case "Jun": mes= "06"; break;
+            case "Jul": mes= "07"; break;
+            case "Aug": mes= "08"; break;
+            case "Sep": mes= "09"; break;
+            case "Oct": mes= "10"; break;
+            case "Nov": mes= "11"; break;
+            case "Dec": mes= "12"; break;
+            default: mes="01"; break;
         }
         StringBuilder completo = new StringBuilder();
         for( int i=4; i<date.length(); i++){
             if (date.charAt(i) == ','){
                 completo.append("/"+ mes + "/");
                 i+=2;
-                
             }
             completo.append(date.charAt(i));
         }
-
-        return completo.toString();
+        String nova = completo.toString();
+        completo = new StringBuilder();
+            if(nova.charAt(1)== '/'){
+                completo.append("0" + nova); 
+                nova = completo.toString();
+            }
+        return nova;
     }
 
-}
+    public void quickSor(int esq, int dir, Leitura[] game){
+        int i, j, pivo; 
+        for( i =esq, j = dir, pivo = game[(esq+dir)/2].getId() ; i<=j ;){ 
+            while(game[i].getId() <pivo){ i++;}
+            while(game[j].getId() >pivo){ j--;}
+            if(i<=j){
+                swap(i, j, game);
+                i++;
+                j--;
+            }
+        }
+        if(esq<j){ quickSor(esq, j, game);}
+        if(dir>i){ quickSor(i, dir, game);}    
+    }
 
+    public int pesquisaBinaria(Leitura [] game, int x, int dir, int esq){
+        if(esq>dir){
+            return 0;
+        }else{
+            int meio = (dir+esq)/2;
+            if(game[meio].getId()== x){
+                return meio;
+            }else if(game[meio].getId()< x ){
+                return pesquisaBinaria(game, x, dir, meio+1);
+            }else{
+                return pesquisaBinaria(game, x,  meio-1,esq);
+            }
+        }
+    }
+}
 class Game extends Function{
 
     private int id;
@@ -177,38 +188,39 @@ class Game extends Function{
   
    
     
-    private void imprimirArray(String titulo, String[] array) {
-        System.out.print( titulo + ": ");
-        if (array != null) {
-            for (String elem : array) {
-                System.out.print(elem + " ");
+    private void imprimirArray( String[] game) {
+        System.out.print( "[" );
+        if (game != null) {
+            for (String elem : game) {
+                System.out.print(elem);
+                if(game.length>1){ System.out.print(", ");}
             }
-            System.out.println();
+            System.out.print("] ## ");
         }
     }
 
     public void imprimir(){
-        System.out.println(
-            "ID: "+ getId() + "\n" + 
-            "Name: " + getName() + "\n" + 
-            "Date: " + getRelaseDate() + "\n" + 
-            "Estimated Owners: "+ getEstimatedOwners() + "\n" +      
-            "Price: "+ getPrice()
+        System.out.print(
+            "=> : "+ getId() + " ## " + 
+            getName() + " ## " + 
+            getRelaseDate() + " ## " + 
+            getEstimatedOwners() + " ## " +      
+            getPrice() + " ## "
         );
 
-        imprimirArray("Supported Languages", getSuppportedLanguages());
+        imprimirArray(getSuppportedLanguages());
 
-        System.out.println(
-            "MetacriticScore: "+ getMetacriticScore() + "\n" + 
-            "UserScore: "+getUserScore() + "\n" + 
-            "Achievements: "+getAchievements()
+        System.out.print(
+             getMetacriticScore() + " ## " +
+            " ## " + getUserScore() + " ## " + 
+            " ## " + getAchievements() + " ## "
         );
 
-        imprimirArray("Publishers", getPublishers());
-        imprimirArray("Developers", getDevelopers());
-        imprimirArray("Categories", getCategories());
-        imprimirArray("Genres", getGenres());
-        imprimirArray("Tags", getTags());
+        imprimirArray( getPublishers());
+        imprimirArray( getDevelopers());
+        imprimirArray( getCategories());
+        imprimirArray( getGenres());
+        imprimirArray( getTags());
     }
 
     public void Mostrar(){
@@ -322,21 +334,32 @@ class Leitura extends Game{
 public class GameMain {
     public static void main(String[] args) {
          Scanner scanner = new Scanner(System.in);
-
-
          if (scanner.hasNextLine()) {
           scanner.nextLine();
         }
-
-        Leitura game;
-
+        Leitura[] game= new Leitura[1848];
+        Function func = new Function();
         for (int i=0; i<1848 && scanner.hasNextLine(); i++){
-            System.out.println("----- Jogo: " + (i+1) + " -----");
             String linha = scanner.nextLine();
-            game = new Leitura(linha);
-            game.chamarMetodo();
-            game.imprimir();
-            System.out.println("");
+            game[i] = new Leitura(linha);
+            game[i].chamarMetodo();
+        }
+        func.quickSor(0, game.length-1, game);
+        /*for (int i=0; i<1848 ; i++){
+             game[i].imprimir();
+             System.out.println();
+        }*/
+        if (scanner.hasNextLine()) {
+          scanner.nextLine();
+        }
+        String linha= scanner.nextLine();
+        while ((linha.charAt(0) != 'F'  &&  linha.charAt(1) != 'I' && linha.charAt(0) != 'M' && scanner.hasNextLine()) ) {
+            int x  = func.tranformarInt(linha);
+            x=func.pesquisaBinaria(game, x, game.length-1 ,0);
+            game[x].imprimir();
+            linha= scanner.nextLine();
+            System.out.println();
+
         }
         scanner.close();
     }   
