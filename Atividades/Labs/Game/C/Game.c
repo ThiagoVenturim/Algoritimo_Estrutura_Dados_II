@@ -1,16 +1,18 @@
 #include <stdio.h> 
-#include <stdlib.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include <math.h>
 
 #define MAX 50
 #define TAM 1000
 #define CSV 1848
 
+// Struct de String para declarar mais facil
 typedef struct {
     char str[1000];
 } String;
 
+// Struct de String para Games
 typedef struct {
     int id;
     int estimatedOwners;
@@ -29,29 +31,47 @@ typedef struct {
     String tags[MAX];
 } Game;
 
+// ------------- Funcoes basicas que serao utlizadas  --------
+void swap( Game game [] , int i, int j) {
+    Game temp = game[i];
+    game[i] = game[j];;
+    game[j] = temp;
+}
+
 int length(String linha) {
     int i = 0;
     for (; linha.str[i] != '\0' && linha.str[i] != '\n'; i++);
     return i;
 }
 
-// separa palavras de uma string e retorna quantas encontrou
-int separarPalavras(String linha, String conjunto[]) {
-    int cout = 0, j = 0;
-    for (int i = 0; i < length(linha); i++) {
-        char c = linha.str[i];
-        if (c == ',' || c == '\n' || c == '\0') {
-            conjunto[cout].str[j] = '\0'; 
-            cout++;
-            j = 0;
-        } else if (c != ' ' && c != '\"' && c != '\'') {
-            conjunto[cout].str[j++] = c;
-        }
-    }
-    conjunto[cout].str[j] = '\0'; 
-    return cout + 1;
-}
+void separarPalavras(String linha, String conjunto[]) {
+    int i = 0, j = 0, k = 0;
 
+    while (linha.str[i] != '\0') {
+        // Ignora colchetes
+        if (linha.str[i] == '[' || linha.str[i] == ']') {
+            i++;
+            continue;
+        }
+
+        // Separador por vírgula
+        if (linha.str[i] == ',') {
+            conjunto[j].str[k] = '\0'; // finaliza a string atual
+            j++;                       // próxima posição
+            k = 0;                     // reinicia o índice
+        } else {
+            conjunto[j].str[k++] = linha.str[i];
+        }
+
+        i++;
+    }
+
+    // Finaliza a última palavra
+    conjunto[j].str[k] = '\0';
+
+    // Marca o fim da lista (opcional)
+    conjunto[j + 1].str[0] = '\0';
+}
 int tranformarInt(String linha) {
     int num = 0;
     for (int i = 0; i < length(linha); i++) {
@@ -85,6 +105,68 @@ float tranformarFloat(String linha) {
     return inteiro + frac;
 }
 
+String formatarData(String data){
+    String mes;
+    switch (data.str[0])
+    {
+        if(data.str[1] == 'a'){ mes.str[0]= '0'; mes.str[1]= '1'; } 
+        else if(data.str[2] == 'n'){ mes.str[0]= '0'; mes.str[1]= '6'; } 
+        else if(data.str[2] == 'l'){  mes.str[0]= '0'; mes.str[1]= '7';}  
+    break;
+    case 'F':
+        mes.str[0]= '0'; mes.str[1]= '2';
+    break;
+    case 'M':
+        if(data.str[2] == 'r'){ mes.str[0]= '0'; mes.str[1]= '3'; }
+        else{mes.str[0]= '0'; mes.str[1]= '5'; }
+    break;
+    case 'A':
+        if(data.str[1] == 'p'){ mes.str[0]= '0'; mes.str[1]= '3'; }
+        else{mes.str[0]= '0'; mes.str[1]= '5'; }
+    break;
+    case 'S':
+        mes.str[0]= '0'; mes.str[1]= '9'; 
+    break;
+      case 'O':
+        mes.str[0]= '1'; mes.str[1]= '0';
+    break;
+     case 'N':
+        mes.str[0]= '1'; mes.str[1]= '1';
+    break;
+     case 'D':
+        mes.str[0]= '1'; mes.str[1]= '2'; 
+    break;
+    default: mes.str[0]= '0'; mes.str[1]= '1';   break;
+    }
+    mes.str[2] ='\0';
+    String nova;
+
+    int i = 4; 
+    if(data.str[i+1] == ','){
+        data.str[i-1]='0';
+        i=3;
+    }
+    int j;
+    for( j=0; data.str[i]!= '\0';i++){
+        if(data.str[i]!= ',' && data.str[i]!= ' '  ){
+            nova.str[j] = data.str[i];
+            j++;
+            if(j==2){
+                nova.str[j]= '/';
+                j++;
+                nova.str[j]= mes.str[0];
+                j++;
+                nova.str[j]= mes.str[1];
+                j++;
+                nova.str[j]= '/';
+                j++;
+            }
+        }
+    }
+    nova.str[j]= '\0';
+    return nova;
+}
+
 void classificarLinha(int opcao, String linha, Game *game, int i) {
     switch (opcao) {
         case 0:
@@ -94,7 +176,7 @@ void classificarLinha(int opcao, String linha, Game *game, int i) {
             (game+i)->name = linha;
             break;
         case 2:
-            (game+i)->releaseDate = linha;
+            (game+i)->releaseDate = formatarData( linha);
             break;
         case 3:
             (game+i)->estimatedOwners = tranformarInt(linha);
@@ -103,7 +185,7 @@ void classificarLinha(int opcao, String linha, Game *game, int i) {
             (game+i)->price = tranformarFloat(linha);
             break;
         case 5:
-            separarPalavras(linha, game->suppportedLanguages);
+            separarPalavras(linha, (game+i)->suppportedLanguages);
             break;
         case 6:
             (game+i)->metacriticScore = tranformarInt(linha);
@@ -124,6 +206,7 @@ void classificarLinha(int opcao, String linha, Game *game, int i) {
             separarPalavras(linha, (game+i)->categories); 
             break;
         case 12:
+    case 'J': 
             separarPalavras(linha, (game+i)->genres); 
             break;
         case 13:
@@ -161,30 +244,144 @@ void lerLinha(String linha, Game *game , int index) {
     }
 }
 
+void imprimirArray(String linhas[]){
+    printf("[");
+    if (linhas[0].str[0] != '\0')
+        printf("%s", linhas[0].str);
+    for (int i = 1; i < MAX && linhas[i].str[0] != '\0'; i++){
+        printf(", %s", linhas[i].str);
+    }
+    printf("]");
+}
+
+
+
+void imprimir(Game game[], int pos){
+    for(int i = pos; i <=pos; i++){
+        printf("=> %d ## %s ## %s ## %d ## %.2f ## [", game[i].id, game[i].name.str, game[i].releaseDate.str, game[i].estimatedOwners, game[i].price);
+
+        if (game[i].suppportedLanguages[0].str[0] != '\0')
+            printf("%s", game[i].suppportedLanguages[0].str);
+        for (int j = 1; i < MAX &&    game[i].suppportedLanguages[j].str !='\0'; i++){
+            printf(", %s", game[i].suppportedLanguages[j].str);
+        }
+        printf("]");
+
+        printf(" ## %d ## %.2f ## %d ## [",   game[i].metacriticScore, game[i].userScore, game[i].achievements);
+        
+        if (game[i].publishers[0].str[0] != '\0')
+            printf("%s", game[i].publishers[0].str);
+        for (int j = 1; i < MAX &&    game[i].publishers[j].str !='\0'; i++){
+            printf(", %s", game[i].publishers[j].str);
+        }
+        printf("] ## [");
+
+         if (game[i].categories[0].str[0] != '\0')
+            printf("%s", game[i].categories[0].str);
+        for (int j = 1; i < MAX &&    game[i].categories[j].str !='\0'; i++){
+            printf(", %s", game[i].categories[j].str);
+        }
+        printf("] ## [");
+       
+        if (game[i].genres[0].str[0] != '\0')
+            printf("%s", game[i].genres[0].str);
+        for (int j = 1; i < MAX &&    game[i].genres[j].str !='\0'; i++){
+            printf(", %s", game[i].genres[j].str);
+        }
+        printf("] ## [");
+
+        if (game[i].tags[0].str[0] != '\0')
+            printf("%s", game[i].tags[0].str);
+        for (int j = 1; i < MAX &&    game[i].tags[j].str !='\0'; i++){
+            printf(", %s", game[i].tags[j].str);
+        }
+        printf("] ##");
+        printf("\n");
+    }
+}
+
+void quickSort(Game game[], int esq, int dir) {
+    int i = esq, j = dir;
+    int pivo = game[(esq + dir) / 2].id;
+
+    while (i <= j) {
+        while (game[i].id < pivo) i++;
+        while (game[j].id > pivo) j--;
+
+        if (i <= j) {
+            swap(game, i , j);
+            i++;
+            j--;
+        }
+    }
+
+    if (esq < j) quickSort(game, esq, j);
+    if (i < dir) quickSort(game, i, dir);
+}
+
+int pesquisaBinaria(Game game[], int esq, int dir, int x) {
+    if (esq > dir) {
+        return -1; 
+    }
+
+    int meio = (esq + dir) / 2;
+
+    if (game[meio].id == x) {
+        imprimir(game, meio);
+        return meio;
+    } else if (game[meio].id < x) {
+        return pesquisaBinaria(game, meio + 1, dir, x);
+    } else {
+        return pesquisaBinaria(game, esq, meio - 1, x);
+    }
+}
+
+
+
 int main() {
-    String linha;
-    Game *game = (Game*) malloc(CSV * sizeof(Game));
-    
-    fgets(linha.str, sizeof(linha.str), stdin);
-    if (game == NULL) {
-        printf("Erro ao alocar memoria\n"); 
+    FILE *fp = fopen("tmp/games.csv", "r");
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo games.csv\n");
         return 1;
     }
 
-    for(int i =0 ; i<CSV ; i++){
+    String linha;
+    Game *game = (Game*) malloc(CSV * sizeof(Game));
+    if (game == NULL) {
+        printf("Erro ao alocar memoria\n"); 
+        fclose(fp);
+        return 1;
+    }
 
-        fgets(linha.str, sizeof(linha.str), stdin);
+    // pula o cabeçalho do CSV
+    if (fgets(linha.str, sizeof(linha.str), fp) == NULL) {
+        printf("Arquivo vazio ou com erro\n");
+        free(game);
+        fclose(fp);
+        return 1;
+    }
+
+    for(int i = 0; i < CSV; i++){
+        if (fgets(linha.str, sizeof(linha.str), fp) == NULL) {
+            break; // fim do arquivo
+        }
         lerLinha(linha, game, i);
-        printf("---- Jogo: %d ----\n", i+1);
-        printf("id: %d\n", (game+i)->id);
-        printf("name: %s\n", (game+i)->name.str);
-        printf("releaseDate: %s\n", (game+i)->releaseDate.str);
-        printf("estimatedOwners: %d\n", (game+i)->estimatedOwners);
-        printf("price: %.2f\n", (game+i)->price);
-        printf("metacriticScore: %d\n", (game+i)->metacriticScore);
-        printf("userScore: %.2f\n", (game+i)->userScore);
-        printf("achievements: %d\n", (game+i)->achievements);
+    }
+
+    quickSort(game, 0, CSV-1);
+    
+    String x;
+    int ver;
+    bool aux = true;
+    while (aux){
+        fgets(x.str, 50, stdin);
+        if(x.str[0] == 'F' || x.str[1] == 'I' ||x.str[3] == 'M' ){ 
+            aux = false;
+        }
+        ver = tranformarInt(x);
+        pesquisaBinaria(game, 0, CSV-1, ver);    
     }
     free(game);
+    fclose(fp);
     return 0;
 }

@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
 class Function{
 
@@ -246,6 +248,7 @@ class Leitura extends Game{
         int opcao =0;
         for(int j= 0; j<linha.length(); opcao ++){  
             //System.out.println("Opção: " + opcao);
+            //tem que ler do arquivo o diretorio é /
             StringBuilder str = new StringBuilder();
             boolean parar = true;
             int aspas = 0;
@@ -332,26 +335,25 @@ class Leitura extends Game{
 
 
 public class GameMain {
-    public static void main(String[] args) {
-         Scanner scanner = new Scanner(System.in);
-         if (scanner.hasNextLine()) {
-          scanner.nextLine();
+    public static void main(String[] args)  throws FileNotFoundException {
+
+        File arq = new File("tmp/games.csv");
+        Scanner scfile = new Scanner(arq);
+        Scanner scanner = new Scanner(System.in);
+         if (scfile.hasNextLine()){
+          scfile.nextLine();
         }
         Leitura[] game= new Leitura[1848];
         Function func = new Function();
-        for (int i=0; i<1848 && scanner.hasNextLine(); i++){
-            String linha = scanner.nextLine();
-            game[i] = new Leitura(linha);
+        
+        for (int i=0; i<1848 && scfile.hasNextLine() ; i++){
+            String arquivo = scfile.nextLine();
+            game[i] = new Leitura(arquivo);
             game[i].chamarMetodo();
         }
         func.quickSor(0, game.length-1, game);
-        /*for (int i=0; i<1848 ; i++){
-             game[i].imprimir();
-             System.out.println();
-        }*/
-        if (scanner.hasNextLine()) {
-          scanner.nextLine();
-        }
+
+    
         String linha= scanner.nextLine();
         while ((linha.charAt(0) != 'F'  &&  linha.charAt(1) != 'I' && linha.charAt(0) != 'M' && scanner.hasNextLine()) ) {
             int x  = func.tranformarInt(linha);
@@ -362,5 +364,6 @@ public class GameMain {
 
         }
         scanner.close();
+        scfile.close();
     }   
 }

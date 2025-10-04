@@ -60,6 +60,7 @@
     "*.dbclient-js": "javascript",
     "stdio.h": "c",
     "sstream": "c",
-    "ratio": "c"
+    "ratio": "c",
+    "random": "c"
   }
 }
