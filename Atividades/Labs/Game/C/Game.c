@@ -251,51 +251,20 @@ void imprimirArray(String linhas[]){
     for (int i = 1; i < MAX && linhas[i].str[0] != '\0'; i++){
         printf(", %s", linhas[i].str);
     }
-    printf("]");
+    printf("] ## ");
 }
 
 
 
 void imprimir(Game game[], int pos){
     for(int i = pos; i <=pos; i++){
-        printf("=> %d ## %s ## %s ## %d ## %.2f ## [", game[i].id, game[i].name.str, game[i].releaseDate.str, game[i].estimatedOwners, game[i].price);
-
-        if (game[i].suppportedLanguages[0].str[0] != '\0')
-            printf("%s", game[i].suppportedLanguages[0].str);
-        for (int j = 1; i < MAX &&    game[i].suppportedLanguages[j].str !='\0'; i++){
-            printf(", %s", game[i].suppportedLanguages[j].str);
-        }
-        printf("]");
-
-        printf(" ## %d ## %.2f ## %d ## [",   game[i].metacriticScore, game[i].userScore, game[i].achievements);
-        
-        if (game[i].publishers[0].str[0] != '\0')
-            printf("%s", game[i].publishers[0].str);
-        for (int j = 1; i < MAX &&    game[i].publishers[j].str !='\0'; i++){
-            printf(", %s", game[i].publishers[j].str);
-        }
-        printf("] ## [");
-
-         if (game[i].categories[0].str[0] != '\0')
-            printf("%s", game[i].categories[0].str);
-        for (int j = 1; i < MAX &&    game[i].categories[j].str !='\0'; i++){
-            printf(", %s", game[i].categories[j].str);
-        }
-        printf("] ## [");
-       
-        if (game[i].genres[0].str[0] != '\0')
-            printf("%s", game[i].genres[0].str);
-        for (int j = 1; i < MAX &&    game[i].genres[j].str !='\0'; i++){
-            printf(", %s", game[i].genres[j].str);
-        }
-        printf("] ## [");
-
-        if (game[i].tags[0].str[0] != '\0')
-            printf("%s", game[i].tags[0].str);
-        for (int j = 1; i < MAX &&    game[i].tags[j].str !='\0'; i++){
-            printf(", %s", game[i].tags[j].str);
-        }
-        printf("] ##");
+        printf("=> %d ## %s ## %s ## %d ## %.2f ## ", game[i].id, game[i].name.str, game[i].releaseDate.str, game[i].estimatedOwners, game[i].price);
+        imprimirArray(game[i].suppportedLanguages);
+        printf("%d ## %.2f ## %d ## ",   game[i].metacriticScore, game[i].userScore, game[i].achievements);
+        imprimirArray(game[i].publishers);
+        imprimirArray(game[i].categories);
+        imprimirArray(game[i].genres);
+        imprimirArray(game[i].tags);
         printf("\n");
     }
 }
@@ -339,7 +308,7 @@ int pesquisaBinaria(Game game[], int esq, int dir, int x) {
 
 
 int main() {
-    FILE *fp = fopen("tmp/games.csv", "r");
+    FILE *fp = fopen("/tmp/games.csv", "r");
     if (fp == NULL) {
         printf("Erro ao abrir o arquivo games.csv\n");
         return 1;

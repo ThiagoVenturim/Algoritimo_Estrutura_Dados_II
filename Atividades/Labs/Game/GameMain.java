@@ -189,21 +189,23 @@ class Game extends Function{
     public String[] getTags(){ return tags; }
   
    
-    
+
     private void imprimirArray( String[] game) {
         System.out.print( "[" );
+        int cout=0;
         if (game != null) {
             for (String elem : game) {
                 System.out.print(elem);
-                if(game.length>1){ System.out.print(", ");}
+                if(game.length>1 && game.length-1!=cout ){ System.out.print(", ");}
+                cout++;
             }
-            System.out.print("] ## ");
+            System.out.print("]");
         }
     }
 
     public void imprimir(){
         System.out.print(
-            "=> : "+ getId() + " ## " + 
+            "=> "+ getId() + " ## " + 
             getName() + " ## " + 
             getRelaseDate() + " ## " + 
             getEstimatedOwners() + " ## " +      
@@ -213,16 +215,21 @@ class Game extends Function{
         imprimirArray(getSuppportedLanguages());
 
         System.out.print(
-             getMetacriticScore() + " ## " +
+            " ## " + getMetacriticScore() + " ## " +
             " ## " + getUserScore() + " ## " + 
             " ## " + getAchievements() + " ## "
         );
 
         imprimirArray( getPublishers());
+        System.out.print(" ## ");
         imprimirArray( getDevelopers());
+        System.out.print(" ## ");
         imprimirArray( getCategories());
+        System.out.print(" ## ");
         imprimirArray( getGenres());
+        System.out.print(" ## ");
         imprimirArray( getTags());
+        System.out.print(" ## ");
     }
 
     public void Mostrar(){
@@ -337,7 +344,7 @@ class Leitura extends Game{
 public class GameMain {
     public static void main(String[] args)  throws FileNotFoundException {
 
-        File arq = new File("tmp/games.csv");
+        File arq = new File("/tmp/games.csv");
         Scanner scfile = new Scanner(arq);
         Scanner scanner = new Scanner(System.in);
          if (scfile.hasNextLine()){
