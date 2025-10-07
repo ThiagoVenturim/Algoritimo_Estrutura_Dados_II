@@ -15,13 +15,23 @@ class Function{
             boolean parar = true;
             StringBuilder str = new StringBuilder();
            for( ;  parar && j<linha.length()   ; j++){
-                if(linha.charAt(j) == ','){
+              if(linha.charAt(j) == ','){
                     parar= false;
-                }else if(linha.charAt(j) != ']' && linha.charAt(j) != '[' && linha.charAt(j) != '\'' && linha.charAt(j) != ' '  ){
+                    if(linha.charAt(j+1) == ' '){
+                        j++;
+                    }
+                }else if(linha.charAt(j) != ']' && linha.charAt(j) != '[' ){
                 str.append(linha.charAt(j));
             }
         }
-        //System.out.println("Palavra " + i + ": " + str.toString());
+        if (str.length() > 0 && str.charAt(0) == '\'') {
+            StringBuilder td= new StringBuilder();
+            for(int k=1; k<str.length()-1; k++ ){
+                td.append(str.charAt(k));
+            }
+            str = td ;
+        }
+
         palavras[i] = str.toString();
         }
         return palavras;
@@ -216,8 +226,8 @@ class Game extends Function{
 
         System.out.print(
             " ## " + getMetacriticScore() + " ## " +
-            " ## " + getUserScore() + " ## " + 
-            " ## " + getAchievements() + " ## "
+             getUserScore() + " ## " + 
+             getAchievements() + " ## "
         );
 
         imprimirArray( getPublishers());
@@ -229,7 +239,7 @@ class Game extends Function{
         imprimirArray( getGenres());
         System.out.print(" ## ");
         imprimirArray( getTags());
-        System.out.print(" ## ");
+        System.out.print(" ##");
     }
 
     public void Mostrar(){

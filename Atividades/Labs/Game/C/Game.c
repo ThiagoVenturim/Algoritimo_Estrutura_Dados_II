@@ -1,356 +1,257 @@
-#include <stdio.h> 
-#include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+#include <ctype.h>
 #include <math.h>
 
-#define MAX 50
-#define TAM 1000
-#define CSV 1848
-
-// Struct de String para declarar mais facil
-typedef struct {
-    char str[1000];
-} String;
-
-// Struct de String para Games
 typedef struct {
     int id;
+    char* name;
+    char* releaseDate;
     int estimatedOwners;
-    int metacriticScore;
-    int achievements;
     float price;
+    char** supportedLanguages;
+    int supportedLanguages_count;
+    int metacriticScore;
     float userScore;
-    String name;
-    String releaseDate;
-    String linha;
-    String suppportedLanguages[MAX];
-    String publishers[MAX];
-    String developers[MAX];
-    String categories[MAX];
-    String genres[MAX];
-    String tags[MAX];
+    int achievements;
+    char** publishers;
+    int publishers_count;
+    char** developers;
+    int developers_count;
+    char** categories;
+    int categories_count;
+    char** genres;
+    int genres_count;
+    char** tags;
+    int tags_count;
 } Game;
 
-// ------------- Funcoes basicas que serao utlizadas  --------
-void swap( Game game [] , int i, int j) {
-    Game temp = game[i];
-    game[i] = game[j];;
-    game[j] = temp;
+// Funções auxiliares 
+// Trim: remove espaços no início e fim
+char* trim(char* str) {
+    if (!str) return NULL;
+    while (isspace((unsigned char)*str)) str++;
+    if (*str == 0) return str;
+    char* end = str + strlen(str) - 1;
+    while (end > str && isspace((unsigned char)*end)) end--;
+    end[1] = '\0';
+    return str;
 }
 
-int length(String linha) {
-    int i = 0;
-    for (; linha.str[i] != '\0' && linha.str[i] != '\n'; i++);
-    return i;
-}
+// Faz split de string em array de strings dinâmicas
+char** separarStringInterna(const char* texto, char separador, int* count) {
+    *count = 0;
+    if (!texto || texto[0] == '\0') return NULL;
 
-void separarPalavras(String linha, String conjunto[]) {
-    int i = 0, j = 0, k = 0;
+    int temp_count = 1;
+    for (int i = 0; texto[i]; i++)
+        if (texto[i] == separador) temp_count++;
 
-    while (linha.str[i] != '\0') {
-        // Ignora colchetes
-        if (linha.str[i] == '[' || linha.str[i] == ']') {
-            i++;
-            continue;
-        }
+    char** resultado = malloc(temp_count * sizeof(char*));
+    char buffer[1024];
+    int idx = 0, buf_len = 0;
 
-        // Separador por vírgula
-        if (linha.str[i] == ',') {
-            conjunto[j].str[k] = '\0'; // finaliza a string atual
-            j++;                       // próxima posição
-            k = 0;                     // reinicia o índice
+    for (int i = 0; texto[i]; i++) {
+        if (texto[i] == separador) {
+            buffer[buf_len] = '\0';
+            resultado[idx++] = strdup(trim(buffer));
+            buf_len = 0;
         } else {
-            conjunto[j].str[k++] = linha.str[i];
-        }
-
-        i++;
-    }
-
-    // Finaliza a última palavra
-    conjunto[j].str[k] = '\0';
-
-    // Marca o fim da lista (opcional)
-    conjunto[j + 1].str[0] = '\0';
-}
-int tranformarInt(String linha) {
-    int num = 0;
-    for (int i = 0; i < length(linha); i++) {
-        num = num * 10 + (linha.str[i] - '0');
-    }
-    return num;
-}
-
-float tranformarFloat(String linha) {
-    String num, decimal;
-    int vir = 0;
-    int j = 0, k = 0;
-    for (int i = 0; i < length(linha); i++) {
-        if (linha.str[i] == ',' || linha.str[i] == '.') {
-            vir = 1;
-            continue;
-        }
-        if (!vir) { 
-            num.str[k++] = linha.str[i];
-        } else { 
-            decimal.str[j++] = linha.str[i];
+            if (buf_len < 1023) buffer[buf_len++] = texto[i];
         }
     }
-    num.str[k] = '\0';
-    decimal.str[j] = '\0';
-
-    int inteiro = tranformarInt(num);
-    int dec = (j > 0) ? tranformarInt(decimal) : 0;
-    float frac = (j > 0) ? dec / pow(10, j) : 0.0;
-
-    return inteiro + frac;
+    buffer[buf_len] = '\0';
+    resultado[idx++] = strdup(trim(buffer));
+    *count = idx;
+    return resultado;
 }
 
-String formatarData(String data){
-    String mes;
-    switch (data.str[0])
-    {
-        if(data.str[1] == 'a'){ mes.str[0]= '0'; mes.str[1]= '1'; } 
-        else if(data.str[2] == 'n'){ mes.str[0]= '0'; mes.str[1]= '6'; } 
-        else if(data.str[2] == 'l'){  mes.str[0]= '0'; mes.str[1]= '7';}  
-    break;
-    case 'F':
-        mes.str[0]= '0'; mes.str[1]= '2';
-    break;
-    case 'M':
-        if(data.str[2] == 'r'){ mes.str[0]= '0'; mes.str[1]= '3'; }
-        else{mes.str[0]= '0'; mes.str[1]= '5'; }
-    break;
-    case 'A':
-        if(data.str[1] == 'p'){ mes.str[0]= '0'; mes.str[1]= '3'; }
-        else{mes.str[0]= '0'; mes.str[1]= '5'; }
-    break;
-    case 'S':
-        mes.str[0]= '0'; mes.str[1]= '9'; 
-    break;
-      case 'O':
-        mes.str[0]= '1'; mes.str[1]= '0';
-    break;
-     case 'N':
-        mes.str[0]= '1'; mes.str[1]= '1';
-    break;
-     case 'D':
-        mes.str[0]= '1'; mes.str[1]= '2'; 
-    break;
-    default: mes.str[0]= '0'; mes.str[1]= '1';   break;
+// Converte string para float (tratando vírgula e ponto)
+float transformarFloat(const char* str) {
+    char temp[64];
+    int j = 0;
+    for (int i = 0; str[i]; i++) {
+        if (str[i] == ',') temp[j++] = '.';
+        else temp[j++] = str[i];
     }
-    mes.str[2] ='\0';
-    String nova;
-
-    int i = 4; 
-    if(data.str[i+1] == ','){
-        data.str[i-1]='0';
-        i=3;
-    }
-    int j;
-    for( j=0; data.str[i]!= '\0';i++){
-        if(data.str[i]!= ',' && data.str[i]!= ' '  ){
-            nova.str[j] = data.str[i];
-            j++;
-            if(j==2){
-                nova.str[j]= '/';
-                j++;
-                nova.str[j]= mes.str[0];
-                j++;
-                nova.str[j]= mes.str[1];
-                j++;
-                nova.str[j]= '/';
-                j++;
-            }
-        }
-    }
-    nova.str[j]= '\0';
-    return nova;
+    temp[j] = '\0';
+    return atof(temp);
 }
 
-void classificarLinha(int opcao, String linha, Game *game, int i) {
-    switch (opcao) {
-        case 0:
-            (game+i)->id = tranformarInt(linha);
-            break;
-        case 1:
-            (game+i)->name = linha;
-            break;
-        case 2:
-            (game+i)->releaseDate = formatarData( linha);
-            break;
-        case 3:
-            (game+i)->estimatedOwners = tranformarInt(linha);
-            break;
-        case 4:
-            (game+i)->price = tranformarFloat(linha);
-            break;
-        case 5:
-            separarPalavras(linha, (game+i)->suppportedLanguages);
-            break;
-        case 6:
-            (game+i)->metacriticScore = tranformarInt(linha);
-            break;
-        case 7:
-            (game+i)->userScore = tranformarFloat(linha);
-            break;
-        case 8:
-            (game+i)->achievements = tranformarInt(linha);
-            break;
-        case 9:
-            separarPalavras(linha, (game+i)->publishers);                
-            break;
-        case 10:
-            separarPalavras(linha, (game+i)->developers);
-            break;
-        case 11:
-            separarPalavras(linha, (game+i)->categories); 
-            break;
-        case 12:
-    case 'J': 
-            separarPalavras(linha, (game+i)->genres); 
-            break;
-        case 13:
-            separarPalavras(linha, (game+i)->tags);
-            break;
-        default:
-            // ignora colunas extras
-            break;
-    }
+// Formata data do CSV para dd/mm/yyyy
+char* formatarData(const char* data) {
+    char mesNum[3] = "01";
+    if (strstr(data, "Jan")) strcpy(mesNum, "01");
+    else if (strstr(data, "Feb")) strcpy(mesNum, "02");
+    else if (strstr(data, "Mar")) strcpy(mesNum, "03");
+    else if (strstr(data, "Apr")) strcpy(mesNum, "04");
+    else if (strstr(data, "May")) strcpy(mesNum, "05");
+    else if (strstr(data, "Jun")) strcpy(mesNum, "06");
+    else if (strstr(data, "Jul")) strcpy(mesNum, "07");
+    else if (strstr(data, "Aug")) strcpy(mesNum, "08");
+    else if (strstr(data, "Sep")) strcpy(mesNum, "09");
+    else if (strstr(data, "Oct")) strcpy(mesNum, "10");
+    else if (strstr(data, "Nov")) strcpy(mesNum, "11");
+    else if (strstr(data, "Dec")) strcpy(mesNum, "12");
+
+    int dia = 1, ano = 1970;
+    char* token;
+    char dataCopy[128];
+    strncpy(dataCopy, data, 128);
+    token = strtok(dataCopy, " ,");
+    if (token) { /* mes */ token = strtok(NULL, " ,"); }
+    if (token) dia = atoi(token);
+    token = strtok(NULL, " ,");
+    if (token) ano = atoi(token);
+
+    char* novaData = malloc(11);
+    sprintf(novaData, "%02d/%s/%d", dia, mesNum, ano);
+    return novaData;
 }
 
-void lerLinha(String linha, Game *game , int index) {
-    int opcao = 0;
-    for (int j = 0; j < length(linha); opcao++) {  
-        String nova;
-        int k = 0;
-        bool parar = true;
-        int aspas = 0;
-
-        for (; j < length(linha) && parar; j++) {
-            if (linha.str[j] == ',' && (aspas == 0 || (opcao != 2 && opcao != 1 && opcao != 5 && opcao < 9))) {
-                parar = false;
-            } else if (linha.str[j] == '\"') {
-                aspas++;
-                if (aspas == 2) {
-                    parar = false;
-                    j++;
-                }
-            } else {
-                nova.str[k++] = linha.str[j];
-            }
-        }
-        nova.str[k] = '\0'; // fecha a string corretamente
-        classificarLinha(opcao, nova, game, index);
-    }
+// Libera memória de um Game
+void free_game_memory(Game* game) {
+    free(game->name);
+    free(game->releaseDate);
+    for (int i = 0; i < game->supportedLanguages_count; i++) free(game->supportedLanguages[i]);
+    free(game->supportedLanguages);
+    for (int i = 0; i < game->publishers_count; i++) free(game->publishers[i]);
+    free(game->publishers);
+    for (int i = 0; i < game->developers_count; i++) free(game->developers[i]);
+    free(game->developers);
+    for (int i = 0; i < game->categories_count; i++) free(game->categories[i]);
+    free(game->categories);
+    for (int i = 0; i < game->genres_count; i++) free(game->genres[i]);
+    free(game->genres);
+    for (int i = 0; i < game->tags_count; i++) free(game->tags[i]);
+    free(game->tags);
 }
 
-void imprimirArray(String linhas[]){
-    printf("[");
-    if (linhas[0].str[0] != '\0')
-        printf("%s", linhas[0].str);
-    for (int i = 1; i < MAX && linhas[i].str[0] != '\0'; i++){
-        printf(", %s", linhas[i].str);
-    }
-    printf("] ## ");
-}
-
-
-
-void imprimir(Game game[], int pos){
-    for(int i = pos; i <=pos; i++){
-        printf("=> %d ## %s ## %s ## %d ## %.2f ## ", game[i].id, game[i].name.str, game[i].releaseDate.str, game[i].estimatedOwners, game[i].price);
-        imprimirArray(game[i].suppportedLanguages);
-        printf("%d ## %.2f ## %d ## ",   game[i].metacriticScore, game[i].userScore, game[i].achievements);
-        imprimirArray(game[i].publishers);
-        imprimirArray(game[i].categories);
-        imprimirArray(game[i].genres);
-        imprimirArray(game[i].tags);
-        printf("\n");
-    }
-}
-
-void quickSort(Game game[], int esq, int dir) {
-    int i = esq, j = dir;
-    int pivo = game[(esq + dir) / 2].id;
-
-    while (i <= j) {
-        while (game[i].id < pivo) i++;
-        while (game[j].id > pivo) j--;
-
-        if (i <= j) {
-            swap(game, i , j);
-            i++;
-            j--;
-        }
-    }
-
-    if (esq < j) quickSort(game, esq, j);
-    if (i < dir) quickSort(game, i, dir);
-}
-
-int pesquisaBinaria(Game game[], int esq, int dir, int x) {
-    if (esq > dir) {
-        return -1; 
-    }
-
-    int meio = (esq + dir) / 2;
-
-    if (game[meio].id == x) {
-        imprimir(game, meio);
-        return meio;
-    } else if (game[meio].id < x) {
-        return pesquisaBinaria(game, meio + 1, dir, x);
+// Imprime um Game
+void imprimir(const Game* game) {
+    printf("=> %d ## %s ## %s ## %d ##  ", game->id, game->name, game->releaseDate, game->estimatedOwners);
+    if (game->price == 0.0f) {
+    printf("%.1f ## [", game->price); 
     } else {
-        return pesquisaBinaria(game, esq, meio - 1, x);
+    printf("%g ## [", game->price); 
     }
+    for (int i = 0; i < game->supportedLanguages_count; i++) {
+        printf("%s%s", game->supportedLanguages[i], (i < game->supportedLanguages_count-1) ? ", " : "");
+    }
+    printf("] ## %d ## %.1f ## %d ## [", game->metacriticScore, game->userScore, game->achievements);
+    for (int i = 0; i < game->publishers_count; i++) {
+        printf("%s%s", game->publishers[i], (i < game->publishers_count-1) ? ", " : "");
+    }
+    printf("] ## [");
+    for (int i = 0; i < game->developers_count; i++) {
+        printf("%s%s", game->developers[i], (i < game->developers_count-1) ? ", " : "");
+    }
+    printf("] ## [");
+    for (int i = 0; i < game->categories_count; i++) {
+        printf("%s%s", game->categories[i], (i < game->categories_count-1) ? ", " : "");
+    }
+    printf("] ## [");
+    for (int i = 0; i < game->genres_count; i++) {
+        printf("%s%s", game->genres[i], (i < game->genres_count-1) ? ", " : "");
+    }
+    printf("] ## [");
+    for (int i = 0; i < game->tags_count; i++) {
+        printf("%s%s", game->tags[i], (i < game->tags_count-1) ? ", " : "");
+    }
+    printf("] ##\n");
 }
 
+//  Parsing do CSV 
+void formatar(Game* game, const char* linha) {
+    char* campos[20];
+    int campos_count = 0;
 
+    char buffer[8192];
+    strcpy(buffer, linha);
 
-int main() {
-    FILE *fp = fopen("/tmp/games.csv", "r");
-    if (fp == NULL) {
-        printf("Erro ao abrir o arquivo games.csv\n");
-        return 1;
-    }
-
-    String linha;
-    Game *game = (Game*) malloc(CSV * sizeof(Game));
-    if (game == NULL) {
-        printf("Erro ao alocar memoria\n"); 
-        fclose(fp);
-        return 1;
-    }
-
-    // pula o cabeçalho do CSV
-    if (fgets(linha.str, sizeof(linha.str), fp) == NULL) {
-        printf("Arquivo vazio ou com erro\n");
-        free(game);
-        fclose(fp);
-        return 1;
-    }
-
-    for(int i = 0; i < CSV; i++){
-        if (fgets(linha.str, sizeof(linha.str), fp) == NULL) {
-            break; // fim do arquivo
+    char* token;
+    bool dentroAspas = false;
+    char campoTemp[8192];
+    int idx = 0;
+    for (int i = 0; buffer[i]; i++) {
+        if (buffer[i] == '"') dentroAspas = !dentroAspas;
+        else if (buffer[i] == ',' && !dentroAspas) {
+            campoTemp[idx] = '\0';
+            campos[campos_count++] = strdup(trim(campoTemp));
+            idx = 0;
+        } else {
+            campoTemp[idx++] = buffer[i];
         }
-        lerLinha(linha, game, i);
+    }
+    campoTemp[idx] = '\0';
+    campos[campos_count++] = strdup(trim(campoTemp));
+
+    // Preenche Game
+    game->id = atoi(campos[0]);
+    game->name = strdup(campos[1]);
+    game->releaseDate = formatarData(campos[2]);
+    game->estimatedOwners = atoi(campos[3]);
+    game->price = transformarFloat(campos[4]);
+
+    // supportedLanguages
+    char linguagensLimpas[1024];
+    int j = 0;
+    for (int i = 0; campos[5][i]; i++) {
+        if (campos[5][i] != '[' && campos[5][i] != ']' && campos[5][i] != '\'')
+            linguagensLimpas[j++] = campos[5][i];
+    }
+    linguagensLimpas[j] = '\0';
+    game->supportedLanguages = separarStringInterna(linguagensLimpas, ',', &game->supportedLanguages_count);
+
+    game->metacriticScore = atoi(campos[6]);
+    game->userScore = atof(campos[7]);
+    game->achievements = atoi(campos[8]);
+    game->publishers = separarStringInterna(campos[9], ',', &game->publishers_count);
+    game->developers = separarStringInterna(campos[10], ',', &game->developers_count);
+    game->categories = separarStringInterna(campos[11], ',', &game->categories_count);
+    game->genres = separarStringInterna(campos[12], ',', &game->genres_count);
+    game->tags = separarStringInterna(campos[13], ',', &game->tags_count);
+
+    for (int i = 0; i < campos_count; i++) free(campos[i]);
+}
+
+//  Função main 
+int main(void) {
+    FILE* arquivo = fopen("/tmp/games.csv", "r");
+    if (!arquivo) { printf("ERRO ao abrir games.csv\n"); return 1; }
+
+    int capacity = 4000, size = 0;
+    Game* gamesList = malloc(capacity * sizeof(Game));
+    char linha[8192];
+
+    fscanf(arquivo, "%[^\n]%*c", linha); // pular cabeçalho
+
+    while (fscanf(arquivo, " %[^\n]%*c", linha) != EOF) {
+        if (size >= capacity) {
+            capacity *= 2;
+            gamesList = realloc(gamesList, capacity * sizeof(Game));
+        }
+        formatar(&gamesList[size], linha);
+        size++;
+    }
+    fclose(arquivo);
+
+    char entrada[128];
+    while (scanf("%s", entrada) != EOF) {
+        if (strcasecmp(entrada, "FIM") == 0) break;
+        int id = atoi(entrada);
+        for (int i = 0; i < size; i++) {
+            if (gamesList[i].id == id) {
+                imprimir(&gamesList[i]);
+                break;
+            }
+        }
     }
 
-    quickSort(game, 0, CSV-1);
-    
-    String x;
-    int ver;
-    bool aux = true;
-    while (aux){
-        fgets(x.str, 50, stdin);
-        if(x.str[0] == 'F' || x.str[1] == 'I' ||x.str[3] == 'M' ){ 
-            aux = false;
-        }
-        ver = tranformarInt(x);
-        pesquisaBinaria(game, 0, CSV-1, ver);    
-    }
-    free(game);
-    fclose(fp);
+    for (int i = 0; i < size; i++) free_game_memory(&gamesList[i]);
+    free(gamesList);
+
     return 0;
 }
