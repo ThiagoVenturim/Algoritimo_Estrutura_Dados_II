@@ -61,6 +61,9 @@
     "stdio.h": "c",
     "sstream": "c",
     "ratio": "c",
-    "random": "c"
+    "random": "c",
+    "array": "c",
+    "initializer_list": "c",
+    "utility": "c"
   }
 }

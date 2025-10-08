@@ -131,7 +131,7 @@ void free_game_memory(Game* game) {
 
 // Imprime um Game
 void imprimir(const Game* game) {
-    printf("=> %d ## %s ## %s ## %d ##  ", game->id, game->name, game->releaseDate, game->estimatedOwners);
+    printf("=> %d ## %s ## %s ## %d ## ", game->id, game->name, game->releaseDate, game->estimatedOwners);
     if (game->price == 0.0f) {
     printf("%.1f ## [", game->price); 
     } else {
@@ -217,10 +217,44 @@ void formatar(Game* game, const char* linha) {
     for (int i = 0; i < campos_count; i++) free(campos[i]);
 }
 
+void swap(Game* a, Game* b) {
+    Game temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+// Partição baseada no campo 'id'
+int partition(Game* arr, int low, int high) {
+    int pivot = arr[high].id;
+    int i = low - 1;
+
+    for (int j = low; j < high; j++) {
+        if (arr[j].id < pivot) {
+            i++;
+            swap(&arr[i], &arr[j]);
+        }
+    }
+
+    swap(&arr[i + 1], &arr[high]);
+    return i + 1;
+}
+
+// Função recursiva do QuickSort
+void quickSort(Game* arr, int low, int high) {
+    if (low < high) {
+        int pi = partition(arr, low, high);
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+
 //  Função main 
-int main(void) {
-    FILE* arquivo = fopen("/tmp/games.csv", "r");
-    if (!arquivo) { printf("ERRO ao abrir games.csv\n"); return 1; }
+int main() {
+    FILE* arquivo = fopen("games.csv", "r");
+    if (!arquivo) { 
+        printf("ERRO ao abrir games.csv\n"); 
+        return 1; 
+    }
 
     int capacity = 4000, size = 0;
     Game* gamesList = malloc(capacity * sizeof(Game));
@@ -238,18 +272,24 @@ int main(void) {
     }
     fclose(arquivo);
 
-    char entrada[128];
-    while (scanf("%s", entrada) != EOF) {
-        if (strcasecmp(entrada, "FIM") == 0) break;
-        int id = atoi(entrada);
-        for (int i = 0; i < size; i++) {
-            if (gamesList[i].id == id) {
-                imprimir(&gamesList[i]);
-                break;
-            }
-        }
-    }
+    // Ordena os jogos por nome
+    quickSort(gamesList, 0, size - 1);
 
+    for (int i = 0; i < size; i++) { imprimir(&gamesList[i]);}
+
+   /*char entrada[128]; 
+    while (scanf("%s", entrada) != EOF){ 
+        if (strcasecmp(entrada, "FIM") == 0) break; 
+        int id = atoi(entrada); 
+        for (int i = 0; i < size; i++){ 
+            if (gamesList[i].id == id){ 
+                imprimir(&gamesList[i]); 
+                break; 
+            } 
+        } 
+    }*/
+
+    // Libera memória
     for (int i = 0; i < size; i++) free_game_memory(&gamesList[i]);
     free(gamesList);
 

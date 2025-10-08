@@ -63,6 +63,22 @@ class Function{
     }
 
     public String formatarData(String date){
+        boolean enc= false;
+        for( int i=0; i<date.length(); i++){
+            if (date.charAt(i) == ','){
+                enc =true;   
+            }
+        }
+        if(!enc){
+        StringBuilder test = new StringBuilder();
+        for( int i=0; i<date.length(); i++){
+            test.append(date.charAt(i));
+            if(date.charAt(i) == ' ' ){
+                test.append("01, ");
+            }
+        }    
+            date= test.toString();
+        }
         String mes= "";
         for(int i=0; i<3 && i<date.length(); i++){  mes += date.charAt(i);}
         switch (mes) {
@@ -209,8 +225,9 @@ class Game extends Function{
                 if(game.length>1 && game.length-1!=cout ){ System.out.print(", ");}
                 cout++;
             }
-            System.out.print("]");
+            
         }
+        System.out.print("]");
     }
 
     public void imprimir(){
@@ -265,13 +282,12 @@ class Leitura extends Game{
         int opcao =0;
         for(int j= 0; j<linha.length(); opcao ++){  
             //System.out.println("Opção: " + opcao);
-            //tem que ler do arquivo o diretorio é /
             StringBuilder str = new StringBuilder();
             boolean parar = true;
             int aspas = 0;
             for( ; j< linha.length() && parar ; j++){
                 //System.out.println("Caractere: " + linha.charAt(j) + " - " + j);
-                if( linha.charAt(j) == ',' && (aspas == 0 ||  (opcao !=2 && opcao != 1 &&opcao !=5 && opcao < 9))){
+                if( linha.charAt(j) == ',' && (aspas == 0 || aspas ==2 )){
                     parar = false;
                 }else if( linha.charAt(j) == '\"'){
                     aspas++;
@@ -348,13 +364,11 @@ class Leitura extends Game{
     }
 
 }
-    
-
 
 public class GameMain {
     public static void main(String[] args)  throws FileNotFoundException {
-
-        File arq = new File("/tmp/games.csv");
+        //File arq = new File("/tmp/games.csv");
+        File arq = new File("games.csv");
         Scanner scfile = new Scanner(arq);
         Scanner scanner = new Scanner(System.in);
          if (scfile.hasNextLine()){
@@ -370,8 +384,9 @@ public class GameMain {
         }
         func.quickSor(0, game.length-1, game);
 
+        for(int i =0; i<1848; i++){ game[i].imprimir(); System.out.println();}
     
-        String linha= scanner.nextLine();
+        /*String linha= scanner.nextLine();
         while ((linha.charAt(0) != 'F'  &&  linha.charAt(1) != 'I' && linha.charAt(0) != 'M' && scanner.hasNextLine()) ) {
             int x  = func.tranformarInt(linha);
             x=func.pesquisaBinaria(game, x, game.length-1 ,0);
@@ -379,7 +394,7 @@ public class GameMain {
             linha= scanner.nextLine();
             System.out.println();
 
-        }
+        }*/
         scanner.close();
         scfile.close();
     }   
