@@ -1,3 +1,4 @@
+package Algoritmo.EstruturaLinear.Pilha;
 
 class Pilha{
     private int array[];

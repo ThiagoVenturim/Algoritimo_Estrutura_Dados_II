@@ -1,4 +1,4 @@
-package Algoritmo.Fila;
+package Algoritmo.EstruturaLinear.Fila;
 
  class FilaCircular{
     private int array[];

@@ -1,4 +1,4 @@
-package Algoritmo.Pesquisa_Memoria_Principal;
+package Algoritmo.Pesquisa;
 import java.util.Scanner;
 
 class Pesquisa{

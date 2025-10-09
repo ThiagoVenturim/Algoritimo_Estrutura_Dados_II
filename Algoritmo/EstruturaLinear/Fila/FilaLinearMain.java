@@ -1,3 +1,4 @@
+package Algoritmo.EstruturaLinear.Fila;
  class FilaLinear{
     private int array[];
     private int ultimo;

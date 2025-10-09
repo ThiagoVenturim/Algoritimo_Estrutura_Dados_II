@@ -1,4 +1,4 @@
-package Algoritmo.Selecao;
+package Algoritmo.Ordenação.Selecao;
 
 import java.util.Scanner;
 

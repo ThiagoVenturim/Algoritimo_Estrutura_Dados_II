@@ -1,3 +1,4 @@
+package Algoritmo.EstruturaLinear.Lista;
 class ListaLinear{
     private int array[];
     private int n;

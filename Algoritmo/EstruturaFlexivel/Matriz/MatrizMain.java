@@ -1,3 +1,4 @@
+package Algoritmo.EstruturaFlexivel.Matriz;
 import java.util.*;
 
 class Celula{

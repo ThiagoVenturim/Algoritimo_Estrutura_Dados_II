@@ -1,4 +1,4 @@
-package Algoritmo.Pesquisa_Memoria_Principal;
+package Algoritmo.Pesquisa;
 
 class PesquisaSequencial{
     private int[] vetor;

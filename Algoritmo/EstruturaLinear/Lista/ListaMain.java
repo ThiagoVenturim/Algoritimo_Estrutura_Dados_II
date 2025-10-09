@@ -1,3 +1,4 @@
+package Algoritmo.EstruturaLinear.Lista;
 import java.util.Scanner;
 
 class Lista{
