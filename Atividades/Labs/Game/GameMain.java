@@ -367,8 +367,8 @@ class Leitura extends Game{
 
 public class GameMain {
     public static void main(String[] args)  throws FileNotFoundException {
-        //File arq = new File("/tmp/games.csv");
-        File arq = new File("games.csv");
+        File arq = new File("/tmp/games.csv");
+        //File arq = new File("games.csv");
         Scanner scfile = new Scanner(arq);
         Scanner scanner = new Scanner(System.in);
          if (scfile.hasNextLine()){
@@ -384,9 +384,9 @@ public class GameMain {
         }
         func.quickSor(0, game.length-1, game);
 
-        for(int i =0; i<1848; i++){ game[i].imprimir(); System.out.println();}
+        //for(int i =0; i<1848; i++){ game[i].imprimir(); System.out.println();}
     
-        /*String linha= scanner.nextLine();
+        String linha= scanner.nextLine();
         while ((linha.charAt(0) != 'F'  &&  linha.charAt(1) != 'I' && linha.charAt(0) != 'M' && scanner.hasNextLine()) ) {
             int x  = func.tranformarInt(linha);
             x=func.pesquisaBinaria(game, x, game.length-1 ,0);
@@ -394,7 +394,7 @@ public class GameMain {
             linha= scanner.nextLine();
             System.out.println();
 
-        }*/
+        }
         scanner.close();
         scfile.close();
     }   

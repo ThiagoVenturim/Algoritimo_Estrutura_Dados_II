@@ -250,7 +250,7 @@ void quickSort(Game* arr, int low, int high) {
 
 //  Função main 
 int main() {
-    FILE* arquivo = fopen("games.csv", "r");
+    FILE* arquivo = fopen("/tmp/games.csv", "r");
     if (!arquivo) { 
         printf("ERRO ao abrir games.csv\n"); 
         return 1; 
@@ -275,9 +275,9 @@ int main() {
     // Ordena os jogos por nome
     quickSort(gamesList, 0, size - 1);
 
-    for (int i = 0; i < size; i++) { imprimir(&gamesList[i]);}
+    //for (int i = 0; i < size; i++) { imprimir(&gamesList[i]);}
 
-   /*char entrada[128]; 
+   char entrada[128]; 
     while (scanf("%s", entrada) != EOF){ 
         if (strcasecmp(entrada, "FIM") == 0) break; 
         int id = atoi(entrada); 
@@ -287,7 +287,7 @@ int main() {
                 break; 
             } 
         } 
-    }*/
+    }
 
     // Libera memória
     for (int i = 0; i < size; i++) free_game_memory(&gamesList[i]);
