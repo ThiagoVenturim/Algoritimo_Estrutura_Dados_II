@@ -35,17 +35,14 @@ class Matriz{
         inicio = new Celula(); 
         Celula colNova = inicio;
         
-        System.out.println("Criando inicio" ); 
         for(int i =0; i<linha; i++){
             if(i != 0){
-                System.out.println("Criando linha: " + i ); 
                 colNova.inf = new Celula();
                 colNova.inf.sup = colNova;
                 colNova= colNova.inf;
             }
             Celula linNova = colNova;
             for(int j=1; j<colunas; j++, linNova = linNova.dir ){
-                System.out.println("Criando coluna: " + j ); 
                 linNova.dir = new Celula();
                 linNova.dir.esq = linNova;
                 if(i != 0){
