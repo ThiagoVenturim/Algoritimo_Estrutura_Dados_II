@@ -1,5 +1,4 @@
-package Algoritmo.EstruturaFlexivel.Matriz;
-import java.util.*;
+import java.util.*; 
 
 class Celula{
     public int elemento;
@@ -48,6 +47,7 @@ class Matriz{
                 linNova.dir.esq = linNova;
                 if(i != 0){
                     linNova.dir.sup= linNova.sup.dir;
+                    linNova.sup.dir.inf= linNova.dir.sup;
                 }
             }
         }
