@@ -1,4 +1,6 @@
-import java.util.*; 
+import java.util.*;
+
+import Algoritmo.EstruturaFlexivel.FIlaFlexivel.Celula; 
 
 class Celula{
     public int elemento;

@@ -1,4 +1,3 @@
-package Algoritmo.EstruturaFlexivel.ListaFlexivel;
 import java.util.Scanner;
 
 class Celula{
