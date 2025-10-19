@@ -408,7 +408,7 @@ class Leitura extends Game{
 public class GameMainBinario {
     public static void main(String[] args)  throws FileNotFoundException {
         File arq = new File("/tmp/games.csv");
-        //File arq = new File("games.csv");
+                //File arq = new File("games.csv");
         Scanner scfile = new Scanner(arq);
         Scanner scanner = new Scanner(System.in);
          if (scfile.hasNextLine()){

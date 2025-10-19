@@ -1,6 +1,8 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
+
+// classe para as funcoes que vao ser mais utilizadas 
 class Function{
 
      private void swap(int i, int j , Game []game){
@@ -36,7 +38,7 @@ class Function{
         }
         return palavras;
     }
-
+    // conta quantas palavars tem para criar o array 
     public int quantidadeDePalavras(String linha){
         int quantidade = 1;
         for(int i=0; i<linha.length(); i++){
@@ -47,7 +49,7 @@ class Function{
         }
         return quantidade;
     }
-
+    // formatar para int 
     public int  tranformarInt(String linha){
         int numero = 0;
         for(int i=0; i<linha.length(); i++){
@@ -55,13 +57,14 @@ class Function{
         }
         return numero;
     }   
-
+    // formatar para float 
     public float transformarFloat(String linha) {
         String limpa = linha.trim(); 
         limpa = limpa.replace(',', '.');
         return Float.parseFloat(limpa);
     }
 
+    // formatar a data 
     public String formatarData(String date){
         boolean enc= false;
         for( int i=0; i<date.length(); i++){
@@ -206,6 +209,8 @@ class Function{
         }
     }
 }
+
+// Classe game onde vai armazerar os jogos 
 class Game extends Function{
 
     private int id;
@@ -328,6 +333,7 @@ class Game extends Function{
 
 }
 
+//classe onde as linhas do csv sao tratadas 
 class Leitura extends Game{
 
     private String linha;
