@@ -7,6 +7,7 @@ class PesquisaSequencial{
     public PesquisaSequencial(){
     this.tamanho = 0;
     this.vetor = new int[tamanho];
+    
     }
     public void setVetor(int[] vetor) {
         this.vetor = vetor;
