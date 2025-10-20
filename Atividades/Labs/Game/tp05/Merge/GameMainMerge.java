@@ -1,14 +1,21 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
+import java.time.LocalDateTime;
 
 // classe para as funcoes que vao ser mais utilizadas 
 class Function{
+    public int movimentacoes;
+    public int comparacoes;
 
-     private void swap(int i, int j , Game []game){
+    private void swap(int i, int j , Game []game){
         Game temp = game[i];
         game[i] = game[j];
         game[j] = temp;
+        movimentacoes=0;
+        comparacoes=0;
     }
 
     public String[] separarPalavras(String linha, int tamanho){
@@ -125,9 +132,11 @@ class Function{
 
         // Copiando elementos para os arrays temporários
         for (int i = 0; i < tamanho1; ++i) {
+             movimentacoes++;
             Esq[i] = games[esq + i];
         }
         for (int j = 0; j < tamanho2; ++j) {
+             movimentacoes++;
             Dir[j] = games[meio + 1 + j];
         }
 
@@ -137,16 +146,20 @@ class Function{
         while (i < tamanho1 && j < tamanho2) {
             if (Esq[i].getPrice() < Dir[j].getPrice()) {
                 games[k] = Esq[i];
+                comparacoes++;
                 i++;
             } else if (Esq[i].getPrice() > Dir[j].getPrice() ) {
                 games[k] = Dir[j];
+                comparacoes++;
                 j++;
             }else{
                 if( Esq[i].getId() < Dir[j].getId()){
                     games[k] = Esq[i];
+                    movimentacoes++;
                     i++;
                 }else{
                     games[k] = Dir[j];
+                    movimentacoes++;
                     j++;
                 }
             }
@@ -156,6 +169,7 @@ class Function{
         // Copia o restante (se houver) do array Esq
         while (i < tamanho1) {
             games[k] = Esq[i];
+            movimentacoes++;
             i++;
             k++;
         }
@@ -163,6 +177,7 @@ class Function{
         // Copia o restante (se houver) do array Dir
         while (j < tamanho2) {
             games[k] = Dir[j];
+            movimentacoes++;
             j++;
             k++;
         }
@@ -466,10 +481,23 @@ public class GameMainMerge {
             prontoMerge[tamanhoMerge++] = game[x];
             linha= scanner.nextLine();
         }
+        long inicio = System.nanoTime();
         func.mergeSort(prontoMerge, 0, tamanhoMerge-1);
+        long fim = System.nanoTime();
+        double tempoExecucao = (fim - inicio) / 1_000_000.0;
+
+        try {
+            FileWriter log = new FileWriter("878672_mergesort.txt");
+            log.write("878672\t" + func.comparacoes + "\t" + func.movimentacoes + "\t" + String.format("%.3f", tempoExecucao));
+            log.close();
+        } catch (IOException e) {
+            System.out.println("Erro ao criar arquivo de log: " + e.getMessage());
+        }
+        //System.out.println("| 5 preços mais caros |\n");
         MyIO.print("| 5 preços mais caros |\n");
         for(int i =tamanhoMerge-1; i>tamanhoMerge-6; i--){ prontoMerge[i].imprimir(); System.out.println();}
         System.out.println();
+        //System.out.println("| 5 preços mais baratos |\n");
         MyIO.print("| 5 preços mais baratos |\n");
         for(int i =0; i<5; i++){ prontoMerge[i].imprimir(); System.out.println();}
         System.out.println();

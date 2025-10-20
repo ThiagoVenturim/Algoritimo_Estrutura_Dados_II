@@ -1,14 +1,22 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
+import java.time.LocalDateTime;
+import java.io.FileWriter;
+import java.io.IOException;
+
 
 class HeapSort{
     public Leitura[] games;
     private int n;
+    public  int comparacoes;
+    public  int movimentacoes;
 
     public HeapSort(Leitura []games, int tamanho){
         this.games=games;
         this.n=tamanho;
+        comparacoes=0;
+        movimentacoes=0;
     }
     
     public void ordenar() {
@@ -35,6 +43,7 @@ private void reconstruir(int tamHeap, int i) {
             (games[esquerda].getEstimatedOwners() == games[maior].getEstimatedOwners() &&
              games[esquerda].getId() > games[maior].getId())) { // desempate pelo ID menor
             maior = esquerda;
+            comparacoes+=3;
         }
     }
 
@@ -43,23 +52,23 @@ private void reconstruir(int tamHeap, int i) {
             (games[direita].getEstimatedOwners() == games[maior].getEstimatedOwners() &&
              games[direita].getId() > games[maior].getId())) {
             maior = direita;
+            comparacoes+=3;
         }
     }
 
     if (maior != i) {
         swap(i, maior);
         reconstruir(tamHeap, maior);
+        comparacoes++;
     }
 }
     private void swap(int i, int j) {
         Leitura temp = games[i];
         games[i] = games[j];
         games[j] = temp;
+        movimentacoes++;
     }
 
-    public void imprimir() {
-        System.out.println(Arrays.toString(games));
-    }
 }
 class Function{
 
@@ -459,9 +468,22 @@ public class GameMainHeap {
             prontoHeap[tamanhoHeap++] = game[x];
             linha= scanner.nextLine();
         }
+        
         HeapSort hp = new  HeapSort(  prontoHeap, tamanhoHeap);
+        
+        long inicio = System.nanoTime();
         hp.ordenar();
+        long fim = System.nanoTime();
+        double tempoExecucao = (fim - inicio) / 1_000_000.0;
         for(int i =0; i<tamanhoHeap; i++){ hp.games[i].imprimir(); System.out.println();}
+
+        try {
+            FileWriter log = new FileWriter("878672_heapsort.txt");
+            log.write("878672 \t" + hp.comparacoes + "\t" + hp.movimentacoes + "\t" + String.format("%.3f", tempoExecucao));
+            log.close();
+        } catch (IOException e) {
+            System.out.println("Erro ao criar arquivo de log: " + e.getMessage());
+        }
 
         scanner.close();
         scfile.close();

@@ -1,14 +1,20 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
+import java.time.LocalDateTime;
+
 class Function{
 
+    public int comparacoes;
      private void swap(int i, int j , Game []game){
         Game temp = game[i];
         game[i] = game[j];
         game[j] = temp;
-    }
-
+        comparacoes=0;
+     }
+    
     public String[] separarPalavras(String linha, int tamanho){
         String[] palavras = new String[tamanho];
         for(int i=0, j=0 ; i<tamanho || j<linha.length() ; i++){
@@ -169,6 +175,7 @@ class Function{
             return false;
         } else {
             int meio = (esq + dir) / 2;
+            comparacoes++;
             int cmp = game[meio].getName().compareToIgnoreCase(str);
 
             if (cmp == 0) {
@@ -437,11 +444,12 @@ public class GameMainBinario {
             prontoBinario[tamanhoBinario++] = game[x];
             linha= scanner.nextLine();
         }
-
+        
         func.quickSorLetra(0, tamanhoBinario-1, prontoBinario);
         //for(int i =0; i<tamanhoBinario-1; i++){ prontoBinario[i].imprimir(); System.out.println();}
         linha = scanner.nextLine();
 
+        long inicio = System.nanoTime();
         while (!linha.equalsIgnoreCase("FIM") && scanner.hasNextLine()) {
 
             if (func.pesquisaBinariaLetra(prontoBinario, linha, 0, tamanhoBinario - 1)) {
@@ -452,7 +460,16 @@ public class GameMainBinario {
 
             linha = scanner.nextLine();
         }
+        long fim = System.nanoTime();
+        double tempoExecucao = (fim - inicio) / 1_000_000.0;
 
+        try {
+            FileWriter log = new FileWriter("878672_mergesort.txt");
+            log.write("878672\t" + func.comparacoes + "\t"  + String.format("%.3f", tempoExecucao));
+            log.close();
+        } catch (IOException e) {
+            System.out.println("Erro ao criar arquivo de log: " + e.getMessage());
+        }
         scanner.close();
         scfile.close();
     }   
