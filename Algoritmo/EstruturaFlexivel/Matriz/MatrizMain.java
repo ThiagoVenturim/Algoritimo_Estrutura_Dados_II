@@ -146,20 +146,19 @@ class Matriz{
     }
 
     public void inserirColunaPos(int pos, Scanner scanner){
-        if (pos < 1 || pos > colunas + 1) {
+        if (pos < 0 || pos > colunas + 1) {
             System.err.println("Posição inválida!");
             return;
         } else if (pos == 0) {
             inserirColunaEsquerda(scanner);
             return;
-        } else if (pos == colunas + 1) { // último índice
+        } else if (pos == colunas) { // último índice
             inserirColunaDireita(scanner);
             return;
         }
         
         Celula nova= new Celula(scanner.nextInt());
         Celula tmp =nova;
-        System.out.println("Carregando nova celula");
         for(int i=1; i<linha; i++, tmp = tmp.inf){
             tmp.inf= new Celula(scanner.nextInt());
             tmp.inf.sup = tmp;  
@@ -169,7 +168,6 @@ class Matriz{
         for(int i = 0; i<pos-1 && tmp!=null; i++){
             tmp =tmp.dir;
         }
-        System.out.println("Passou");
         for( ; tmp!= null && nova!= null; tmp = tmp.inf , nova= nova.inf){
             tmp.dir.esq = nova;
             nova.dir = tmp.dir;
@@ -179,17 +177,158 @@ class Matriz{
         colunas++;
     }
 
+    public void inserirLinhaPos(int pos, Scanner scanner){
+        if (pos < 0 || pos > linha + 1) {
+            System.err.println("Posição inválida!");
+            return;
+        } else if (pos == 0) {
+            inserirLinhaSuperior(scanner);
+            return;
+        } else if (pos == colunas) { // último índice
+            inserirLinhaInferior(scanner);
+            return;
+        }
+        
+        Celula nova= new Celula(scanner.nextInt());
+        Celula tmp =nova;
+        for(int i=1; i<colunas; i++, tmp = tmp.dir){
+            tmp.dir= new Celula(scanner.nextInt());
+            tmp.dir.esq = tmp;  
+        }
+        tmp = inicio;
+        for(int i = 0; i<pos-1 && tmp!=null; i++){
+            tmp =tmp.inf;
+        }
+        for( ; tmp!= null && nova!= null; tmp = tmp.dir , nova= nova.dir){
+            tmp.inf.sup = nova;
+            nova.inf = tmp.inf;
+            tmp.inf= nova;
+            nova.sup = tmp; 
+        }
+        linha++;
+    }
 
+    public int[] removerColunaDireita(){
+        if(colunas<2){
+            System.err.println("Nao e possivel remover");
+        }
+        Celula tmp=inicio;
+        int []array = new int[linha];
+        for( ; tmp.dir!=null;tmp= tmp.dir){ }
+        int j=0;
+        
+        for(Celula i =tmp ; i!=null; i = i.inf ,j++, tmp = tmp.inf){
+            array[j]= i.elemento;
+            tmp.esq.dir=null;
+        }   
+        colunas--;
+        return array;
+    }
+
+    public int[] removerColunaEsquerda(){
+        if(colunas<2){
+            System.err.println("Nao e possivel remover");
+        }
+        Celula tmp=inicio;
+        inicio = inicio.dir;
+        int []array = new int[linha];
+        int j=0;
+        for(Celula i =tmp ; i!=null; i = i.inf,j++, tmp = tmp.inf){
+            array[j]= i.elemento;
+            tmp.dir.esq=null;
+        }   
+        colunas--;
+        return array;
+    }
+
+    public int[] removerLinhaInferior(){
+        if(linha<2){
+            System.err.println("Nao e possivel remover");
+        }
+        Celula tmp=inicio;
+        int []array = new int[colunas];
+        for( ; tmp.inf!=null;tmp= tmp.inf){ }
+        int j=0;
+        for(Celula i =tmp ; i!=null; i = i.dir,j++, tmp = tmp.dir){
+            array[j]= i.elemento;
+            tmp.sup.inf=null;
+        }   
+        linha--;
+        return array;
+    }
+
+    public int[] removerLinhaSuperior(){
+        if(linha<2){
+            System.err.println("Nao e possivel remover");
+        }
+        Celula tmp=inicio;
+        inicio= inicio.inf;
+        int []array = new int[colunas];
+        int j=0;
+        for(Celula i =tmp ; i!=null; i = i.dir,j++, tmp = tmp.dir){
+            array[j]= i.elemento;
+            tmp.inf.sup=null;
+        }   
+        linha--;
+        return array;
+    }
+    
+    public int[] removerLinhaPos(int pos){
+        if((pos<0 || pos>linha) && linha < 2){
+            System.err.println("Nao e possivel remover");
+        }else if(pos==0){
+            return removerLinhaSuperior();
+        }else if(pos==linha-1){
+            return removerLinhaInferior();
+        }
+        Celula tmp=inicio;
+        int []array = new int[colunas];
+        int j=0;
+        for(int i=0; i<pos && tmp.inf!=null; tmp = tmp.inf, i++){}
+        for(Celula i =tmp ; i!=null; i = i.dir,j++, tmp = tmp.dir){
+            array[j]= i.elemento;
+            tmp.sup.inf = tmp.inf;
+            tmp.inf.sup= tmp.inf.sup;
+        }   
+        linha--;
+        return array;
+    }
+    public int[] removerColunaPos(int pos){
+        if((pos<0 || pos>colunas) && colunas < 2){
+            System.err.println("Nao e possivel remover");
+        }else if(pos==0){
+            return removerColunaDireita();
+        }else if(pos==linha-1){
+            return removerColunaEsquerda();
+        }
+        Celula tmp=inicio;
+        int []array = new int[colunas];
+        int j=0;
+        for(int i=0; i<pos && tmp.dir!=null; tmp = tmp.dir, i++){}
+        for(Celula i =tmp ; i!=null; i = i.inf,j++, tmp = tmp.inf){
+            array[j]= i.elemento;
+            tmp.esq.dir = tmp.dir;
+            tmp.dir.esq= tmp.esq;
+        }   
+        linha--;
+        return array;
+    }
 
 }
 public class MatrizMain{
     public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
-        Matriz matriz = new Matriz(2, 3);
+        Matriz matriz = new Matriz(3, 3);
         matriz.inserirElemento(scanner);
         
         matriz.mostrar();
-        matriz.inserirColunaPos(1, scanner);
+        int []array = matriz.removerColunaPos(1);
+        for(int  x : array){
+            System.out.print(x + " ");
+        }
+        System.out.println();
+        matriz.mostrarDiagonal();
+    
         matriz.mostrar();
     }
 }
