@@ -1,6 +1,5 @@
 import java.util.*;
 
-
 class Celula{
     public int elemento;
     public Celula dir;
@@ -313,6 +312,26 @@ class Matriz{
         linha--;
         return array;
     }
+    
+    public void swap(Celula i, Celula j){
+        int tmp = i.elemento;
+        i.elemento = j.elemento;
+        j.elemento = tmp;
+   }
+
+   public void booble(){
+        for(Celula i = inicio ; i!=null; i = i.inf){
+            for(Celula j = i; j!=null; j=j.dir){
+                for(Celula k = i ; k!=null; k = k.inf){
+                    for(Celula q = k; q!=null; q=q.dir){
+                        if(j.elemento<q.elemento){
+                            swap(j, q);
+                        } 
+                    }
+                }
+            }
+        }
+   }
 
 }
 public class MatrizMain{
@@ -320,15 +339,9 @@ public class MatrizMain{
         Scanner scanner = new Scanner(System.in);
         Matriz matriz = new Matriz(3, 3);
         matriz.inserirElemento(scanner);
+        matriz.mostrar();
+        matriz.booble();
+        matriz.mostrar();
         
-        matriz.mostrar();
-        int []array = matriz.removerColunaPos(1);
-        for(int  x : array){
-            System.out.print(x + " ");
-        }
-        System.out.println();
-        matriz.mostrarDiagonal();
-    
-        matriz.mostrar();
     }
 }

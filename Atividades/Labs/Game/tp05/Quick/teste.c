@@ -4,6 +4,8 @@
 #include <stdbool.h>
 #include <time.h> 
 
+int comparar=0;
+int movimentacoes=0;
 // Auxilio.
 #define TAM_MAX 1000
 #define TAM 50
@@ -13,11 +15,18 @@ typedef struct {
     char str[TAM_MAX];
 } String;
 
+//Struct Data
+typedef struct {
+    int dia; 
+    int mes;
+    int ano;
+}Data;
+
 // Struct Game.
 typedef struct {
     int id;
     String nome;
-    String data;
+    Data data;
     int jogadores;
     float preco;
     String idiomas[TAM];
@@ -70,9 +79,11 @@ int formatar(String entrada, String saida[], bool apostrofo) {
     return contador;
 }
 // Procedimento que transforma "Oct 18, 2018" em "18/10/2018".
-void setDataFormatada(String entrada, String *saida) {
+void setDataFormatada(String entrada, Data *saida) {
     if (strlen(entrada.str) < 8) { 
-        strcpy(saida->str, "01/01/0000");
+        saida->dia=01;
+        saida->mes= 01;
+        saida->ano= 0000;
         return;
     }
     char mes[4], dia[3], ano[5], mesNum[3];
@@ -102,11 +113,11 @@ void setDataFormatada(String entrada, String *saida) {
     else if (strcmp(mes, "Nov") == 0) strcpy(mesNum, "11");
     else if (strcmp(mes, "Dec") == 0) strcpy(mesNum, "12");
     else strcpy(mesNum, "01");
-    strcpy(saida->str, dia);
-    strcat(saida->str, "/");
-    strcat(saida->str, mesNum);
-    strcat(saida->str, "/");
-    strcat(saida->str, ano);
+    
+    saida->dia= atoi(dia);
+    saida->ano= atoi(ano);
+    saida->mes= atoi(mesNum);
+    
 }
 
 // Setters.
@@ -209,10 +220,12 @@ void imprimirArray(String array[], int n) {
     printf("]");
 }
 void imprimir(Game *game) {
-    printf("=> %d ## %s ## %s ## %d ## ",
+    printf("=> %d ## %s ## %02d/%02d/%04d ## %d ## ",
         game->id, 
-        game->nome.str, 
-        game->data.str,
+        game->nome.str,
+        game->data.dia, 
+        game->data.mes,
+        game->data.ano,
         game->jogadores
     );
     if (game->preco == 0.0) {
@@ -274,70 +287,50 @@ int pesquisaBinaria(Game game[], int esq, int dir, int x) {
     else return pesquisaBinaria(game, esq, meio - 1, x);
 }
 
-bool maior(Game game , Game pivo){
-    if (strlen(game.data.str) < 10 || strlen(pivo.data.str) < 10)
-        return game.id > pivo.id; // fallback seguro
-
-    bool resp = true;
-    if(strcmp(game.data.str, pivo.data.str) == 0){
-        resp = game.id > pivo.id;
-    } else {
-        int anoGame=0, anoPivo=0;
-        for(int i=6,pos=1000; i<10; i++, pos/=10){
-            anoGame += (game.data.str[i]-'0') * pos;
-            anoPivo += (pivo.data.str[i]-'0') * pos;
-        }
-        if(anoGame < anoPivo) resp=false;
-        else if(anoGame == anoPivo){
-            int mesGame=0, mesPivo=0;
-            for(int i=3,pos=10; i<5; i++, pos/=10){
-                mesGame += (game.data.str[i]-'0') * pos;
-                mesPivo += (pivo.data.str[i]-'0') * pos;
-            }
-            if(mesGame < mesPivo) resp=false;
-            else if(mesGame == mesPivo){
-                int diaGame=0, diaPivo=0;
-                for(int i=0,pos=10; i<2; i++, pos/=10){
-                    diaGame += (game.data.str[i]-'0') * pos;
-                    diaPivo += (pivo.data.str[i]-'0') * pos;
-                }
-                if(diaGame < diaPivo) resp=false;
-            }
-        }
-    }
-    return resp;
-}
-
-
-int quickSortData(Game game[], int esq, int dir) {
-    printf("Ordenando");
+void quickSortData(Game game[], int esq, int dir) {
     int i = esq, j = dir;
-    Game pivo = game[(esq + dir) / 2];
+
+    int diaPiv = game[(esq + dir) / 2].data.dia;
+    int mesPiv = game[(esq + dir) / 2].data.mes;
+    int anoPiv = game[(esq + dir) / 2].data.ano;
+    int idPiv = game[(esq + dir) / 2].id;
 
     while (i <= j) {
-        while (!maior(game[i], pivo)) {
+        // Avança i enquanto game[i] < pivot
+        while ((game[i].data.ano < anoPiv) ||
+               (game[i].data.ano == anoPiv && game[i].data.mes < mesPiv) ||
+               (game[i].data.ano == anoPiv && game[i].data.mes == mesPiv && game[i].data.dia < diaPiv) ||
+               (game[i].data.ano == anoPiv && game[i].data.mes == mesPiv && game[i].data.dia == diaPiv && game[i].id < idPiv)) {
             i++;
-            if (i > dir) break; // segurança
-        } 
-        while (!maior(pivo, game[j])) {
-            j--;
-            if (j < esq) break; // segurança
+            comparar++;
         }
 
+        // Retrocede j enquanto game[j] > pivot
+        while ((game[j].data.ano > anoPiv) ||
+               (game[j].data.ano == anoPiv && game[j].data.mes > mesPiv) ||
+               (game[j].data.ano == anoPiv && game[j].data.mes == mesPiv && game[j].data.dia > diaPiv) ||
+               (game[j].data.ano == anoPiv && game[j].data.mes == mesPiv && game[j].data.dia == diaPiv && game[j].id > idPiv)) {
+            j--;
+            comparar++;
+        }
+
+        // Troca elementos se necessário
         if (i <= j) {
             swap(game, i, j);
             i++;
             j--;
+            movimentacoes++;
         }
     }
 
-    if (esq < j && j < dir) quickSortData(game, esq, j);
-    if (i < dir && i > esq) quickSortData(game, i, dir);
+    // Chamadas recursivas
+    if (esq < j) quickSortData(game, esq, j);
+    if (i < dir) quickSortData(game, i, dir);
 }
 
 // Main.
 int main() {
-    FILE *arq = fopen("tmp/games.csv", "r");
+    FILE *arq = fopen("/tmp/games.csv", "r");
     if (!arq) {
         printf("Erro ao abrir o arquivo\n");
         return 1;
@@ -371,9 +364,9 @@ int main() {
         jogos++;
     }
     fclose(arq);
-    quickSort(game, 0, jogos-1); // orfenecao antes para facilitar achar os elementos
+    quickSort(game, 0, jogos-1); // ordenacao antes para facilitar achar os elementos
     game = (Game*)realloc(game, jogos*sizeof(Game)); //realloc para economizar memoria
-    Game *gameQuick = (Game*)malloc(100 * sizeof(Game)); // sub array de games 
+    Game *gameQuick = (Game*)malloc(jogos * sizeof(Game)); // sub array de games 
     
     if(gameQuick==NULL){return 1;}
     int tamanho=0;
@@ -390,16 +383,26 @@ int main() {
             printf("ID %d nao encontrado.\n", idBusca);
         }
         scanf("%s", busca.str);
+        
     }
     free(game);
+
+    clock_t start, end;
     gameQuick = (Game*)realloc(gameQuick, tamanho*sizeof(Game)); //realloc 
 
+    start= clock();
     quickSortData(gameQuick, 0, tamanho-1);
-    
-    for(int i=1; i<tamanho; i++){
+    end=clock();
+    for(int i=0; i<tamanho; i++){
         imprimir(&gameQuick[i]);
-        }
-    
+    }
+    FILE *log = fopen("878672_quicksort.txt", "w");
+    fprintf(log, "878672\t%ld\t%ld\t%.6f\n",
+                comparar, 
+                movimentacoes, 
+                (double)(end - start) / CLOCKS_PER_SEC);
+    fclose(log);
     free(gameQuick);
+
     return 0;
 }
