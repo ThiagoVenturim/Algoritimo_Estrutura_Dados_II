@@ -81,25 +81,36 @@ int formatar(String entrada, String saida[], bool apostrofo) {
 // Procedimento que transforma "Oct 18, 2018" em "18/10/2018".
 void setDataFormatada(String entrada, Data *saida) {
     if (strlen(entrada.str) < 8) { 
-        saida->dia=01;
-        saida->mes= 01;
-        saida->ano= 0000;
+        saida->dia = 1;
+        saida->mes = 1;
+        saida->ano = 0;
         return;
     }
+
     char mes[4], dia[3], ano[5], mesNum[3];
     strncpy(mes, entrada.str, 3);
     mes[3] = '\0';
-    if (entrada.str[5] == ',') {
+
+    if (strlen(entrada.str) == 8 && entrada.str[3] == ' ') {
+        dia[0] = '0';
+        dia[1] = '1';
+        dia[2] = '\0';
+        strcpy(ano, entrada.str + 4);
+    }
+    else if (entrada.str[5] == ',') {
         dia[0] = '0';
         dia[1] = entrada.str[4];
         dia[2] = '\0';
         strcpy(ano, entrada.str + 7);
-    } else { 
+    } 
+    else { 
         dia[0] = entrada.str[4];
         dia[1] = entrada.str[5];
         dia[2] = '\0';
         strcpy(ano, entrada.str + 8);
     }
+
+    // mapeamento do mês
     if (strcmp(mes, "Jan") == 0) strcpy(mesNum, "01");
     else if (strcmp(mes, "Feb") == 0) strcpy(mesNum, "02");
     else if (strcmp(mes, "Mar") == 0) strcpy(mesNum, "03");
@@ -113,11 +124,10 @@ void setDataFormatada(String entrada, Data *saida) {
     else if (strcmp(mes, "Nov") == 0) strcpy(mesNum, "11");
     else if (strcmp(mes, "Dec") == 0) strcpy(mesNum, "12");
     else strcpy(mesNum, "01");
-    
-    saida->dia= atoi(dia);
-    saida->ano= atoi(ano);
-    saida->mes= atoi(mesNum);
-    
+
+    saida->dia = atoi(dia);
+    saida->ano = atoi(ano);
+    saida->mes = atoi(mesNum);
 }
 
 // Setters.
@@ -379,9 +389,7 @@ int main() {
         if (x != -1) {
             gameQuick[tamanho] = game[x];
             tamanho++;
-        } else {
-            printf("ID %d nao encontrado.\n", idBusca);
-        }
+        } 
         scanf("%s", busca.str);
         
     }
