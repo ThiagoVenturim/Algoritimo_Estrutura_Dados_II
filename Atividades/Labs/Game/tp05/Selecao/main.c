@@ -287,7 +287,7 @@ void Selecao(Game game[], int tamanho, long *comparacoes, long *movimentacoes) {
         }
         if (i != menor) {
             swap(game, i, menor);
-            (*movimentacoes)++;
+            (*movimentacoes)+=2;
         }
     }
 }

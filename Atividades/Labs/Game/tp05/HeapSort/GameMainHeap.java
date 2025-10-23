@@ -59,14 +59,13 @@ private void reconstruir(int tamHeap, int i) {
     if (maior != i) {
         swap(i, maior);
         reconstruir(tamHeap, maior);
-        comparacoes++;
     }
 }
     private void swap(int i, int j) {
         Leitura temp = games[i];
         games[i] = games[j];
         games[j] = temp;
-        movimentacoes++;
+        movimentacoes+=3;
     }
 
 }
@@ -437,7 +436,7 @@ class Leitura extends Game{
 }
 
 public class GameMainHeap {
-    public static void main(String[] args)  throws FileNotFoundException {
+    public static void main(String[] args) throws FileNotFoundException {
         File arq = new File("/tmp/games.csv");
         //File arq = new File("games.csv");
         Scanner scfile = new Scanner(arq);
@@ -469,7 +468,7 @@ public class GameMainHeap {
             linha= scanner.nextLine();
         }
         
-        HeapSort hp = new  HeapSort(  prontoHeap, tamanhoHeap);
+        HeapSort hp = new  HeapSort( prontoHeap, tamanhoHeap);
         
         long inicio = System.nanoTime();
         hp.ordenar();

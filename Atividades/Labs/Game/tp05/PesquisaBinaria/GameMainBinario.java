@@ -175,16 +175,16 @@ class Function{
             return false;
         } else {
             int meio = (esq + dir) / 2;
-            comparacoes++;
             int cmp = game[meio].getName().compareToIgnoreCase(str);
 
             if (cmp == 0) {
+                comparacoes++;
                 return true;
             } else if (cmp < 0) {
-                // O nome no meio é menor → procurar à direita
+                comparacoes++;
                 return pesquisaBinariaLetra(game, str, meio + 1, dir);
             } else {
-                // O nome no meio é maior → procurar à esquerda
+                comparacoes++;
                 return pesquisaBinariaLetra(game, str, esq, meio - 1);
             }
         }
@@ -464,7 +464,7 @@ public class GameMainBinario {
         double tempoExecucao = (fim - inicio) / 1_000_000.0;
 
         try {
-            FileWriter log = new FileWriter("878672_mergesort.txt");
+            FileWriter log = new FileWriter("878672_binaria.txt");
             log.write("878672\t" + func.comparacoes + "\t"  + String.format("%.3f", tempoExecucao));
             log.close();
         } catch (IOException e) {

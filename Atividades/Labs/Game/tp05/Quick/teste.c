@@ -329,7 +329,7 @@ void quickSortData(Game game[], int esq, int dir) {
             swap(game, i, j);
             i++;
             j--;
-            movimentacoes++;
+            movimentacoes+=3;
         }
     }
 
