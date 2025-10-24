@@ -267,14 +267,12 @@ class Game extends Function{
 
 class Leitura extends Game{
     public Leitura prox;
-    public Leitura ant;
 
     private String linha;
     
     public Leitura(String linha) {
         super(linha);
         this.linha= linha;
-        this.ant= null;
         this.prox=null;
 
     }
@@ -370,50 +368,41 @@ class Leitura extends Game{
 
 }
 
-class Pilha{
-    public Leitura topo;
-    
-    public Pilha(String linha){
-        topo  = new Leitura(linha);
-        topo.chamarMetodo();
-    }
-     public Pilha(Leitura topo){
-        this.topo = topo;
+class Fila{
+    public Leitura inicio;
+    public Leitura fim;
+   
+
+
+    public Fila(){
+        inicio = new Leitura(null);
+        fim=inicio;
     }
 
-    public Pilha(){
-        topo = null;
-    }
-
-    public void empilhar(String linha){
-        if(topo==null){topo  = new Leitura(linha);}
+    public void emfilerar(Leitura linha){
+        if(inicio.prox==null){
+            inicio.prox  = linha;
+            fim=inicio.prox;
+        }
         else{ 
-            topo.ant= new Leitura(linha);
-            topo.ant.prox =topo;
-            topo = topo.ant;
+            fim.prox = linha;
+            fim = fim.prox;
         }
     }
 
     
-    public void empilhar(Leitura linha){
-        if(topo==null){topo  = linha;}
-        else{ 
-            topo.ant= linha;
-            topo.ant.prox =topo;
-            topo = topo.ant;
-        }
-    }
 
-    public Leitura desempilhar(){
-        if(topo==null){ return null;}
-        Leitura tmp = topo;
-        topo = topo.prox;
+
+    public Leitura desemfilerar(){
+        if(inicio==fim){ return null;}
+        Leitura tmp = inicio.prox;
+        inicio = inicio.prox;
         return tmp;
     }
 
 }
 
-public class GameMainPilha {
+public class GameMainFila {
     public static void main(String[] args)  throws FileNotFoundException {
         File arq = new File("tmp/games.csv");
         //File arq = new File("games.csv");
@@ -423,7 +412,7 @@ public class GameMainPilha {
           scfile.nextLine();
         }
 
-        Pilha game= new Pilha();
+        Fila game= new Fila();
         Leitura[] array= new Leitura[1850];
         Function func = new Function();
 
@@ -439,15 +428,15 @@ public class GameMainPilha {
         while ((linha.charAt(0) != 'F'  &&  linha.charAt(1) != 'I' && linha.charAt(0) != 'M' && scanner.hasNextLine()) ) {
             int x  = func.tranformarInt(linha);
             x=func.pesquisaBinaria(array, x, tamanho-1 ,0);
-            game.empilhar(array[x]);
+            game.emfilerar(array[x]);
             linha= scanner.nextLine();
         }
-        System.out.println("desempilhar");
-        Leitura tmp = game.desempilhar();
+        System.out.println("Desempilhar");
+        Leitura tmp = game.desemfilerar();
         while(tmp!=null){
             tmp.imprimir();
             System.out.println();
-            tmp = game.desempilhar();
+            tmp = game.desemfilerar();
         }
 
        

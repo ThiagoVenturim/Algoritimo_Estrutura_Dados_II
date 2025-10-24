@@ -161,6 +161,8 @@ class Game extends Function{
     private String[] tags;
     private String linha;
 
+
+
     public Game(String linha){
         this.linha = linha;  
     }
@@ -270,7 +272,8 @@ class Leitura extends Game{
     public Leitura ant;
 
     private String linha;
-    
+
+
     public Leitura(String linha) {
         super(linha);
         this.linha= linha;
@@ -370,50 +373,115 @@ class Leitura extends Game{
 
 }
 
-class Pilha{
-    public Leitura topo;
-    
-    public Pilha(String linha){
-        topo  = new Leitura(linha);
-        topo.chamarMetodo();
-    }
-     public Pilha(Leitura topo){
-        this.topo = topo;
+class Lista{
+    public Leitura inicio;
+    public Leitura fim;
+   
+
+
+    public Lista(){
+        inicio = fim = null;
     }
 
-    public Pilha(){
-        topo = null;
-    }
-
-    public void empilhar(String linha){
-        if(topo==null){topo  = new Leitura(linha);}
-        else{ 
-            topo.ant= new Leitura(linha);
-            topo.ant.prox =topo;
-            topo = topo.ant;
+  
+    public void inserirInicio(Leitura leitura) {
+        if (inicio == null) { // lista vazia
+            inicio = fim = leitura;
+        } else {
+            leitura.prox = inicio;
+            inicio.ant = leitura;
+            inicio = leitura;
         }
     }
 
-    
-    public void empilhar(Leitura linha){
-        if(topo==null){topo  = linha;}
-        else{ 
-            topo.ant= linha;
-            topo.ant.prox =topo;
-            topo = topo.ant;
+    public void inserirFim(Leitura leitura) {
+        if (inicio == null) { // lista vazia
+            inicio = fim = leitura;
+        } else {
+            fim.prox = leitura;
+            leitura.ant = fim;
+            fim = leitura;
         }
     }
 
-    public Leitura desempilhar(){
-        if(topo==null){ return null;}
-        Leitura tmp = topo;
-        topo = topo.prox;
+    public void inserirPos(Leitura leitura, int pos) {
+        int tamanho = getTamanho();
+        if (pos < 0 || pos > tamanho) return;
+
+        if (pos == 0) {
+            inserirInicio(leitura);
+        } else if (pos == tamanho) {
+            inserirFim(leitura);
+        } else {
+            Leitura tmp = inicio;
+            for (int i = 0; i < pos - 1; i++) {
+                tmp = tmp.prox;
+            }
+
+            leitura.prox = tmp.prox;
+            leitura.ant = tmp;
+            tmp.prox.ant = leitura;
+            tmp.prox = leitura;
+        }
+    }
+    public Leitura removerInicio() {
+        if (inicio == null) return null;
+
+        Leitura tmp = inicio;
+        if (inicio == fim) {
+            inicio = fim = null;
+        } else {
+            inicio = inicio.prox;
+            inicio.ant = null;
+        }
+        tmp.prox = tmp.ant = null;
         return tmp;
     }
 
+    public Leitura removerFim() {
+        if (fim == null) return null;
+
+        Leitura tmp = fim;
+        if (inicio == fim) {
+            inicio = fim = null;
+        } else {
+            fim = fim.ant;
+            fim.prox = null;
+        }
+        tmp.prox = tmp.ant = null;
+        return tmp;
+    }
+
+    public Leitura removerPos(int pos) {
+        int tamanho = getTamanho();
+        if (pos < 0 || pos >= tamanho) return null;
+
+        if (pos == 0) {
+            return removerInicio();
+        } else if (pos == tamanho - 1) {
+            return removerFim();
+        } else {
+            Leitura tmp = inicio;
+            for (int i = 0; i < pos; i++) {
+                tmp = tmp.prox;
+            }
+            tmp.ant.prox = tmp.prox;
+            tmp.prox.ant = tmp.ant;
+            tmp.prox = tmp.ant = null;
+            return tmp;
+        }
+    }
+
+
+    public int getTamanho(){
+        int tamanho=0;
+        for(Leitura tmp= inicio; tmp!= null ; tamanho++, tmp= tmp.prox);
+        return tamanho;
+    }
+    
 }
 
-public class GameMainPilha {
+public class GameMainLista {
     public static void main(String[] args)  throws FileNotFoundException {
         File arq = new File("tmp/games.csv");
         //File arq = new File("games.csv");
@@ -423,7 +491,7 @@ public class GameMainPilha {
           scfile.nextLine();
         }
 
-        Pilha game= new Pilha();
+        Lista game= new Lista();
         Leitura[] array= new Leitura[1850];
         Function func = new Function();
 
@@ -434,20 +502,21 @@ public class GameMainPilha {
             array[tamanho].chamarMetodo();
             tamanho++;
         }
+
         func.quickSor(0, tamanho-1, array);
         String linha =scanner.nextLine();
         while ((linha.charAt(0) != 'F'  &&  linha.charAt(1) != 'I' && linha.charAt(0) != 'M' && scanner.hasNextLine()) ) {
             int x  = func.tranformarInt(linha);
             x=func.pesquisaBinaria(array, x, tamanho-1 ,0);
-            game.empilhar(array[x]);
+            game.inserirFim(array[x]);
             linha= scanner.nextLine();
         }
-        System.out.println("desempilhar");
-        Leitura tmp = game.desempilhar();
+        System.out.println("Remover");
+        Leitura tmp = game.removerFim();
         while(tmp!=null){
             tmp.imprimir();
             System.out.println();
-            tmp = game.desempilhar();
+            tmp = game.removerFim();
         }
 
        
