@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Algoritimo_Estrutura_Dados_II.iml" filepath="$PROJECT_DIR$/Algoritimo_Estrutura_Dados_II.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Atividades/Atividades.iml" filepath="$PROJECT_DIR$/Atividades/Atividades.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Algoritmo/EstruturaFlexivel/EstruturaFlexivel.iml" filepath="$PROJECT_DIR$/Algoritmo/EstruturaFlexivel/EstruturaFlexivel.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Atividades/Labs/Labs.iml" filepath="$PROJECT_DIR$/Atividades/Labs/Labs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Atividades/ListaProva/ListaProva.iml" filepath="$PROJECT_DIR$/Atividades/ListaProva/ListaProva.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Algoritmo/Ordenação/Ordenação.iml" filepath="$PROJECT_DIR$/Algoritmo/Ordenação/Ordenação.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Atividades/Labs/Game/tp04/tp04.iml" filepath="$PROJECT_DIR$/Atividades/Labs/Game/tp04/tp04.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Atividades/Labs/Game/tp05/tp05.iml" filepath="$PROJECT_DIR$/Atividades/Labs/Game/tp05/tp05.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Atividades/Labs/Game/tp06/tp06.iml" filepath="$PROJECT_DIR$/Atividades/Labs/Game/tp06/tp06.iml" />
+    </modules>
+  </component>
+</project>

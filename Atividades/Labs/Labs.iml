@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/AlgebraBooleana" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Alteracao" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Anagrama" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Espelho" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Grid" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/SomaDigitos" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Sort" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="Algoritimo_Estrutura_Dados_II" />
+  </component>
+</module>

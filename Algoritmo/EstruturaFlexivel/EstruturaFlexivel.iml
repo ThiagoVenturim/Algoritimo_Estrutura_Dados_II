@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/ArvoreBinaria" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ClassAltoreferencial" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/FIlaFlexivel" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ListaFlexivel" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Matriz" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
