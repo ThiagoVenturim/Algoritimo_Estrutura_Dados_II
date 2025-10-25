@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Algoritimo_Estrutura_Dados_II.iml" filepath="$PROJECT_DIR$/Algoritimo_Estrutura_Dados_II.iml" />
       <module fileurl="file://$PROJECT_DIR$/Atividades/Atividades.iml" filepath="$PROJECT_DIR$/Atividades/Atividades.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Atividades/ListaProva/BalancoParenteses/BalancoParenteses.iml" filepath="$PROJECT_DIR$/Atividades/ListaProva/BalancoParenteses/BalancoParenteses.iml" />
       <module fileurl="file://$PROJECT_DIR$/Algoritmo/EstruturaFlexivel/EstruturaFlexivel.iml" filepath="$PROJECT_DIR$/Algoritmo/EstruturaFlexivel/EstruturaFlexivel.iml" />
       <module fileurl="file://$PROJECT_DIR$/Atividades/Labs/Labs.iml" filepath="$PROJECT_DIR$/Atividades/Labs/Labs.iml" />
       <module fileurl="file://$PROJECT_DIR$/Atividades/ListaProva/ListaProva.iml" filepath="$PROJECT_DIR$/Atividades/ListaProva/ListaProva.iml" />
