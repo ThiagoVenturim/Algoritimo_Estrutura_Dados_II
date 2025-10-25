@@ -1,4 +1,3 @@
-
 class Celula{
     public Celula prox;
     public Celula ant;
@@ -55,7 +54,18 @@ class Pilha{
         return soma;
     }
 
-    public int somarRec(Celula tmp){
+    public  int maior(){
+        int maior =topo.elemento;
+        for(Celula tmp = topo.prox; tmp!=null; tmp = tmp.prox){
+            if(maior < tmp.elemento){
+                maior = tmp.elemento;
+            }
+        }
+        return maior;
+    }
+
+
+    private int somarRec(Celula tmp){
         if(tmp==null){
             return  0;
         }else{
@@ -64,7 +74,7 @@ class Pilha{
         
     }
 
-    public int maiorRec(Celula tmp){
+    private int maiorRec(Celula tmp){
         int maior;
         if(tmp==null){
             maior=0;
@@ -77,14 +87,27 @@ class Pilha{
         return maior;
     }
 
+    private void mostrarRec(Celula tmp){
+       if(tmp==null){
+            return;
+       }else{
+            System.out.print(tmp.elemento + " ");
+            mostrarRec(tmp.prox);
+       }
+    }    
+
     public  int chamarSomar(){
         return somarRec(topo);
     }
 
-     public  int maior(){
+     public  int chamarMaior(){
         return maiorRec(topo);
     }
 
+    public  void chamarMostrar(){
+        mostrarRec(topo);
+       return;
+    }
 
 }
 
@@ -111,7 +134,8 @@ public class PilhaMain {
         pl.inserir(73);
         pl.inserir(84);
         pl.inserir(12);
-        System.out.println("Maior Elementos: " + pl.maior());
+        System.out.println("Maior Elementos: " + pl.chamarMaior());
+        pl.chamarMostrar();
 
     }
 }
