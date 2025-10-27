@@ -44,7 +44,7 @@ class ArvoreBinaria{
         if(raiz==null){
             return;
         }else{
-            System.out.println(raiz.elemento + " ");
+            System.out.print(raiz.elemento + " ");
             mostrar(raiz.esq);
             mostrar(raiz.dir);
         }
@@ -70,6 +70,42 @@ class ArvoreBinaria{
 
     public int pesquisa(int x){return pesquisa(x, raiz); }
 
+    public void caminharCentral(No i){
+        if(i!=null){
+            caminharCentral(i.esq);
+            System.out.print(i.elemento + " ");
+            caminharCentral(i.dir);
+        }
+    }
+
+    public void caminharPos(No i){
+        if(i!=null){
+            caminharPos(i.esq);
+            caminharPos(i.dir);
+            System.out.print(i.elemento + " ");
+        }
+    }
+
+    public void caminharPre(No i){
+        if(i!=null){
+            System.out.print(i.elemento + " ");
+            caminharPos(i.esq);
+            caminharPos(i.dir);
+        }
+    }
+    
+    public void caminhar(){
+        System.out.println("Caminha Pre ");
+        caminharPre(raiz);
+        System.out.println();
+        System.out.println("Caminha Pos ");
+        caminharPos(raiz);
+        System.out.println();
+        System.out.println("Caminha Central ");
+        caminharCentral(raiz);
+        System.out.println();
+     }
+
 }
 
 public class ArvoreBinariaMain{
@@ -85,7 +121,9 @@ public class ArvoreBinariaMain{
         av.inserir(9);
         av.mostrar();
         if(av.pesquisa(8)==1){
-            System.out.println("")
+            System.out.println(" Encontrei");
         }
+
+        av.caminhar();
     }
 }
