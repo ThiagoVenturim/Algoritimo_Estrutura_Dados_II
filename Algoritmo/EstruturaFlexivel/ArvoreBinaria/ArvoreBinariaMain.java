@@ -40,18 +40,6 @@ class ArvoreBinaria{
          } 
     }
 
-    private void mostrar(No raiz){
-        if(raiz==null){
-            return;
-        }else{
-            System.out.print(raiz.elemento + " ");
-            mostrar(raiz.esq);
-            mostrar(raiz.dir);
-        }
-    }
-
-    public void mostrar (){ mostrar(raiz);}
-
     private int pesquisa(int x, No raiz){
         int resp;
         if(raiz== null){
@@ -70,7 +58,7 @@ class ArvoreBinaria{
 
     public int pesquisa(int x){return pesquisa(x, raiz); }
 
-    public void caminharCentral(No i){
+    private void caminharCentral(No i){
         if(i!=null){
             caminharCentral(i.esq);
             System.out.print(i.elemento + " ");
@@ -78,7 +66,7 @@ class ArvoreBinaria{
         }
     }
 
-    public void caminharPos(No i){
+    private void caminharPos(No i){
         if(i!=null){
             caminharPos(i.esq);
             caminharPos(i.dir);
@@ -86,14 +74,29 @@ class ArvoreBinaria{
         }
     }
 
-    public void caminharPre(No i){
+    private void caminharPre(No i){
         if(i!=null){
             System.out.print(i.elemento + " ");
             caminharPos(i.esq);
             caminharPos(i.dir);
         }
     }
-    
+
+    private int getTamanho(No i, int cont){
+        if(i==null){
+           cont --; 
+        }else {
+            int tmp = getTamanho(i.esq, cont+1);
+            int tmp2 = getTamanho(i.dir, cont+1);
+            cont = (tmp >tmp2) ? tmp : tmp2;
+        }
+        return cont;
+    }
+
+    public int getTamanho(){
+        return getTamanho(raiz, 0);
+    }
+
     public void caminhar(){
         System.out.println("Caminha Pre ");
         caminharPre(raiz);
@@ -111,19 +114,14 @@ class ArvoreBinaria{
 public class ArvoreBinariaMain{
     public static void main(String[] args){
         ArvoreBinaria av = new ArvoreBinaria();
-        av.inserir(3);
-        av.inserir(2);
-        av.inserir(7);
-        av.inserir(1);
-        av.inserir(8);
         av.inserir(6);
-        av.inserir(4);
-        av.inserir(9);
-        av.mostrar();
-        if(av.pesquisa(8)==1){
-            System.out.println(" Encontrei");
-        }
+        av.inserir(3);
+        av.inserir(5);
+        av.inserir(1);
+        av.inserir(2);
 
         av.caminhar();
+        System.out.println("Tamanho:  " + av.getTamanho());
+    
     }
 }
