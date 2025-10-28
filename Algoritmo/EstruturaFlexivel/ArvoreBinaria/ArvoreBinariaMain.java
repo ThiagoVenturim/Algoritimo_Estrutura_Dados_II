@@ -109,6 +109,28 @@ class ArvoreBinaria{
         System.out.println();
      }
 
+     private No getMaior(No i){
+        if(i.dir==null){
+            return i;
+        }else{
+            return getMaior(i.dir);
+        }   
+     }
+
+     public int getMaior(){ No i = getMaior(raiz); return i.elemento;}
+
+     public void remover(int x){
+        raiz = remover(x, raiz);
+     }
+
+    private No remover(int x , No i){
+        if(i==null){System.err.println("erro");}
+        else if( x< i .elemento){ i.esq = remover(x, i.esq);}
+        else if( x >i .elemento){ i.dir = remover(x, i.dir);}
+        else if( i.dir == null){ i = i.esq;}
+        else if( i.dir == null){ i = i.dir;}  
+        else{ i.esq = maiorRec(i.esq);}
+    }
 }
 
 public class ArvoreBinariaMain{
@@ -122,6 +144,7 @@ public class ArvoreBinariaMain{
 
         av.caminhar();
         System.out.println("Tamanho:  " + av.getTamanho());
+        System.err.println("Maior:  " + av.getMaior());
     
     }
 }

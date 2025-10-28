@@ -268,18 +268,14 @@ class Game extends Function{
 }
 
 class Leitura extends Game{
-    public Leitura prox;
-    public Leitura ant;
+
 
     private String linha;
 
 
     public Leitura(String linha) {
         super(linha);
-        this.linha= linha;
-        this.ant= null;
-        this.prox=null;
-
+          this.linha = linha; 
     }
 
     public void chamarMetodo(){
@@ -374,109 +370,92 @@ class Leitura extends Game{
 }
 
 class Lista{
-    public Leitura inicio;
-    public Leitura fim;
+    private int tamanho;
+    private Leitura []array;
+    private int  n;
    
 
 
-    public Lista(){
-        inicio = fim = null;
+    public Lista(int tamanho){
+        this.tamanho=tamanho;
+        array= new Leitura[tamanho];
+        this.n=0;
     }
 
   
     public void inserirInicio(Leitura leitura) {
-        if (inicio == null) { // lista vazia
-            inicio = fim = leitura;
-        } else {
-            leitura.prox = inicio;
-            inicio.ant = leitura;
-            inicio = leitura;
+        if( n<tamanho){
+            for (int i= n ; i>0; i--) {
+                array[i]= array[i-1];
+            }
+            array[0]= leitura;
+            n++;
         }
     }
 
     public void inserirFim(Leitura leitura) {
-        if (inicio == null) { // lista vazia
-            inicio = fim = leitura;
-        } else {
-            fim.prox = leitura;
-            leitura.ant = fim;
-            fim = leitura;
+        if( n<tamanho){
+            array[n]= leitura;
+            n++;
         }
     }
 
     public void inserirPos(Leitura leitura, int pos) {
-        int tamanho = getTamanho();
-        if (pos < 0 || pos > tamanho) return;
-
-        if (pos == 0) {
-            inserirInicio(leitura);
-        } else if (pos == tamanho) {
-            inserirFim(leitura);
-        } else {
-            Leitura tmp = inicio;
-            for (int i = 0; i < pos - 1; i++) {
-                tmp = tmp.prox;
+       if(pos<0 || pos>n || n==tamanho){return;}
+       else if(pos==0){ inserirInicio(leitura); }
+       else if(pos == n){ inserirFim(leitura);}
+       else{
+            for(int i=n; i>pos; i--){
+                array[i]= array[i-1];
             }
+            array[pos]= leitura;
+            n++;
+       }
 
-            leitura.prox = tmp.prox;
-            leitura.ant = tmp;
-            tmp.prox.ant = leitura;
-            tmp.prox = leitura;
-        }
     }
     public Leitura removerInicio() {
-        if (inicio == null) return null;
-
-        Leitura tmp = inicio;
-        if (inicio == fim) {
-            inicio = fim = null;
-        } else {
-            inicio = inicio.prox;
-            inicio.ant = null;
+        if(n==0){
+            return null;
+        }else{
+            Leitura tmp = array[0];
+            n--;
+            for(int i=0; i<n; i++){
+                array[i]= array[i+1];
+            }
+           return tmp;
         }
-        tmp.prox = tmp.ant = null;
-        return tmp;
     }
 
     public Leitura removerFim() {
-        if (fim == null) return null;
-
-        Leitura tmp = fim;
-        if (inicio == fim) {
-            inicio = fim = null;
-        } else {
-            fim = fim.ant;
-            fim.prox = null;
+        if(n==0){
+            return null;
+        }else{
+           return array[--n];
         }
-        tmp.prox = tmp.ant = null;
-        return tmp;
     }
 
     public Leitura removerPos(int pos) {
-        int tamanho = getTamanho();
-        if (pos < 0 || pos >= tamanho) return null;
-
-        if (pos == 0) {
-            return removerInicio();
-        } else if (pos == tamanho - 1) {
-            return removerFim();
-        } else {
-            Leitura tmp = inicio;
-            for (int i = 0; i < pos; i++) {
-                tmp = tmp.prox;
+         if(n==0 || pos<0||pos>n){
+            return null;
+        }else if(pos==0){ return removerInicio();}
+        else if(pos==n-1){ return removerFim();
+        }else{
+            Leitura tmp = array[pos];
+            n--;
+            for(int i=pos; i<n; i++){
+                array[i]= array[i+1];
             }
-            tmp.ant.prox = tmp.prox;
-            tmp.prox.ant = tmp.ant;
-            tmp.prox = tmp.ant = null;
-            return tmp;
+           return tmp;
         }
     }
 
-
-    public int getTamanho(){
-        int tamanho=0;
-        for(Leitura tmp= inicio; tmp!= null ; tamanho++, tmp= tmp.prox);
-        return tamanho;
+    public void Mostrar(){
+        if(0!=n){
+            for(int i=0;i<n; i++){
+                array[i].imprimir();
+                System.out.println();
+            }
+        }
     }
     
 }
@@ -491,7 +470,6 @@ public class GameMainLista {
           scfile.nextLine();
         }
 
-        Lista game= new Lista();
         Leitura[] array= new Leitura[1850];
         Function func = new Function();
 
@@ -503,22 +481,17 @@ public class GameMainLista {
             tamanho++;
         }
 
+        Lista game= new Lista(tamanho);
+
         func.quickSor(0, tamanho-1, array);
         String linha =scanner.nextLine();
         while ((linha.charAt(0) != 'F'  &&  linha.charAt(1) != 'I' && linha.charAt(0) != 'M' && scanner.hasNextLine()) ) {
             int x  = func.tranformarInt(linha);
             x=func.pesquisaBinaria(array, x, tamanho-1 ,0);
-            game.inserirFim(array[x]);
+            game.inserirInicio(array[x]);
             linha= scanner.nextLine();
         }
-        System.out.println("Remover");
-        Leitura tmp = game.removerFim();
-        while(tmp!=null){
-            tmp.imprimir();
-            System.out.println();
-            tmp = game.removerFim();
-        }
-
+       game.Mostrar();
        
         scanner.close();
         scfile.close();
