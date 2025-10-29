@@ -558,7 +558,6 @@ public class GameMainLista {
         }
         lista.Mostrar();
 
-    
         scanner.close();
         scfile.close();
     }   
