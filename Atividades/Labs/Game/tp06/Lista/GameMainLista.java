@@ -2,6 +2,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
+import javax.sound.midi.SysexMessage;
+
 class Function{
 
      private void swap(int i, int j , Game []game){
@@ -452,9 +454,65 @@ class Lista{
     public void Mostrar(){
         if(0!=n){
             for(int i=0;i<n; i++){
+                System.out.print("[" + i +"] ");
                 array[i].imprimir();
                 System.out.println();
             }
+        }
+    }
+
+    public void classificar(Scanner scanner, Leitura []leitura,  Function func){
+        String linha = scanner.nextLine();
+        String xs= "", ys= "";
+        int x=0, y=0; 
+        String op= "";
+        for(int i =0, cout=0 ; i<linha.length(); i++ ){
+            if(linha.charAt(i) == ' '){
+                cout++;
+            }else if(cout==0){
+                 op+= linha.charAt(i) ;
+            }else if(cout==1){
+                xs += linha.charAt(i);
+                 
+            }else{
+                ys += linha.charAt(i);
+            }
+        }
+        x = func.tranformarInt(xs);
+        y= func.tranformarInt(ys);
+        Leitura tmp;
+        switch (op) {
+            case "II":
+                x = func.pesquisaBinaria(leitura, x, leitura.length-1 ,0); 
+                inserirInicio(leitura[x]);
+                break;
+
+            case "I*":
+                y= func.pesquisaBinaria(leitura, y, leitura.length-1 ,0); 
+                inserirPos(leitura[y], x);
+                break;
+
+            case "IF":
+                x= func.pesquisaBinaria(leitura, x, leitura.length-1 ,0); 
+                inserirFim(leitura[x]);
+                break;
+            case "RI":
+                tmp = removerInicio();
+                System.out.println("(R) " + tmp.getName());
+                break;
+
+            case "R*":
+                tmp = removerPos(x);
+                System.out.println("(R) " + tmp.getName());
+                break;
+              
+            case "RF":
+                 tmp = removerFim();
+                System.out.println("(R) " + tmp.getName());
+                break;
+        
+            default:
+                break;
         }
     }
     
@@ -462,7 +520,7 @@ class Lista{
 
 public class GameMainLista {
     public static void main(String[] args)  throws FileNotFoundException {
-        File arq = new File("tmp/games.csv");
+        File arq = new File("/tmp/games.csv");
         //File arq = new File("games.csv");
         Scanner scfile = new Scanner(arq);
         Scanner scanner = new Scanner(System.in);
@@ -480,19 +538,27 @@ public class GameMainLista {
             array[tamanho].chamarMetodo();
             tamanho++;
         }
-
-        Lista game= new Lista(tamanho);
-
+       
+        Lista lista= new Lista(tamanho);
         func.quickSor(0, tamanho-1, array);
         String linha =scanner.nextLine();
         while ((linha.charAt(0) != 'F'  &&  linha.charAt(1) != 'I' && linha.charAt(0) != 'M' && scanner.hasNextLine()) ) {
             int x  = func.tranformarInt(linha);
             x=func.pesquisaBinaria(array, x, tamanho-1 ,0);
-            game.inserirInicio(array[x]);
+           lista.inserirFim(array[x]);
             linha= scanner.nextLine();
         }
-       game.Mostrar();
-       
+         
+
+        scanner.nextLine();
+         while (scanner.hasNextLine() ) {
+            
+            lista.classificar(scanner, array, func);
+         
+        }
+        lista.Mostrar();
+
+    
         scanner.close();
         scfile.close();
     }   
