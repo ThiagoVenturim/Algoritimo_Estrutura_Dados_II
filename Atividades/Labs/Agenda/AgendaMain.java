@@ -161,8 +161,7 @@ public class AgendaMain {
             a.inserirC(c);
         }
         a.imprimir();
-        Contato tmp = a.remover("AnaPaulaRibeiro");
-        System.out.println("(R) " + tmp);
+
         scanner.close();
     }
 }

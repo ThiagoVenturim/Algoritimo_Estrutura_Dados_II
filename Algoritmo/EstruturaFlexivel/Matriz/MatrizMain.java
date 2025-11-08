@@ -337,11 +337,13 @@ class Matriz{
 public class MatrizMain{
     public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
-        Matriz matriz = new Matriz(3, 3);
+        Matriz matriz = new Matriz(3, 1);
         matriz.inserirElemento(scanner);
+        matriz.inserirColunaDireita(scanner);
+        matriz.inserirLinhaSuperior(scanner);
         matriz.mostrar();
-        matriz.booble();
-        matriz.mostrar();
+      
+        
         
     }
 }
