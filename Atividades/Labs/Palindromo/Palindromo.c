@@ -11,7 +11,7 @@ int ehPalindromo(char *str) {
 // Função recursiva
 int ehPalindromoRec(char *str, int i, int j) {
     int resp;
-    if (i > j) {
+    if (i >= j) {
         resp = 1; // SIM
     } else if (str[i] != str[j]) {
         resp = 0; // NAO

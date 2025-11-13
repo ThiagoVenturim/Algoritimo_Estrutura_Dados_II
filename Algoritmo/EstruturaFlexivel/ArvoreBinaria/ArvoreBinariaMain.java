@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 class No{
     public No esq;
     public No dir;
@@ -77,8 +79,8 @@ class ArvoreBinaria{
     private void caminharPre(No i){
         if(i!=null){
             System.out.print(i.elemento + " ");
-            caminharPos(i.esq);
-            caminharPos(i.dir);
+            caminharPre(i.esq);
+            caminharPre(i.dir);
         }
     }
 
@@ -88,7 +90,8 @@ class ArvoreBinaria{
         }else {
             int tmp = getTamanho(i.esq, cont+1);
             int tmp2 = getTamanho(i.dir, cont+1);
-            cont = (tmp >tmp2) ? tmp : tmp2;
+            cont =(tmp >tmp2) ? tmp:tmp2;
+
         }
         return cont;
     }
@@ -119,7 +122,7 @@ class ArvoreBinaria{
 
      public int getMaior(){ No i = getMaior(raiz); return i.elemento;}
 
-     public void remover(int x){
+    public void remover(int x){
         raiz = remover(x, raiz);
      }
 
@@ -129,22 +132,53 @@ class ArvoreBinaria{
         else if( x >i .elemento){ i.dir = remover(x, i.dir);}
         else if( i.dir == null){ i = i.esq;}
         else if( i.dir == null){ i = i.dir;}  
-        else{ i.esq = maiorRec(i.esq);}
+        else{ i.esq = getMaior(i.esq);}
+        return i;
+    }
+
+    private int getNumeroNo(No raiz){
+        int count = 0;
+        if(raiz!=null){
+            count=  1;
+            count+= getNumeroNo(raiz.esq);
+            count+= getNumeroNo(raiz.dir);
+        }
+        return count;
+    }
+
+    public int getNumeroNo(){
+        return getNumeroNo(raiz);
+    }
+
+    private int getCincunferenciaNivel(No raiz){
+        int maior = 0;
+        int dir=0, esq=0;
+        if(raiz!=null){
+            maior=  1;
+            esq+= getCincunferenciaNivel(raiz.esq);
+            dir+= getCincunferenciaNivel(raiz.dir);
+            maior = (esq+dir > maior) ? esq+dir:maior;
+        }
+        return maior;
+    }
+
+    public  int getCincunferenciaNivel(){
+        return getCincunferenciaNivel(raiz);
     }
 }
 
 public class ArvoreBinariaMain{
     public static void main(String[] args){
         ArvoreBinaria av = new ArvoreBinaria();
-        av.inserir(6);
-        av.inserir(3);
-        av.inserir(5);
-        av.inserir(1);
-        av.inserir(2);
+        Scanner scanner =new Scanner(System.in);
+
+        for(int i=0; i<14; i++){av.inserir(scanner.nextInt());}
 
         av.caminhar();
         System.out.println("Tamanho:  " + av.getTamanho());
-        System.err.println("Maior:  " + av.getMaior());
-    
+        System.out.println("Maior:  " + av.getMaior());
+        System.out.println("Quantidade de Nos:  " + av.getNumeroNo());
+        System.out.println("Maior Circunferencia :  " + av.getCincunferenciaNivel());
+        scanner.close();
     }
 }

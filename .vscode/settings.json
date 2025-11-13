@@ -65,6 +65,7 @@
     "array": "c",
     "initializer_list": "c",
     "utility": "c",
-    "thread": "c"
+    "thread": "c",
+    "stdlib.h": "c"
   }
 }

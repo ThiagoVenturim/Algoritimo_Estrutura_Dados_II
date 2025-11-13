@@ -1,17 +1,21 @@
 #include <stdio.h>
-int main(){
-    int idadeMonica;
-    int idade;
-    int idade2;
 
-    scanf("%d", &idadeMonica);
-    scanf("%d %d", &idade, &idade2 );
-    idadeMonica = idadeMonica-idade-idade2;
-    if(idade>idadeMonica){
-        idadeMonica=  idade;
-    }else if(idade2>idadeMonica){
-        idadeMonica=  idade2;
-    }
-    printf("%d\n",idadeMonica ); 
+int main() {
+    int M, A, B, C, maisVelho;
 
+    scanf("%d", &M);
+    scanf("%d", &A);
+    scanf("%d", &B);
+
+    // calcula a idade do terceiro filho
+    C = M - (A + B);
+
+    // encontra o mais velho
+    maisVelho = A;
+    if (B > maisVelho) maisVelho = B;
+    if (C > maisVelho) maisVelho = C;
+
+    printf("%d\n", maisVelho);
+
+    return 0;
 }
