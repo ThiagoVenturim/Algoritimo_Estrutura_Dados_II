@@ -66,6 +66,7 @@
     "initializer_list": "c",
     "utility": "c",
     "thread": "c",
-    "stdlib.h": "c"
+    "stdlib.h": "c",
+    "functional": "c"
   }
 }
