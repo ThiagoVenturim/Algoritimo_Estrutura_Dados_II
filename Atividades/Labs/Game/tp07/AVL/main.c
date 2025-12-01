@@ -388,8 +388,41 @@ void freeArvore(ArvoreAVL *arvore) {
     free(arvore);
 }
 
+
+void swap(Game game[], int i, int j) {
+    Game temp = game[i];
+    game[i] = game[j];
+    game[j] = temp;
+}
+
+
+void quickSort(Game game[], int esq, int dir) {
+    int i = esq, j = dir;
+    int pivo = game[(esq + dir) / 2].id;
+    while (i <= j) {
+        while (game[i].id < pivo) i++;
+        while (game[j].id > pivo) j--;
+        if (i <= j) {
+            swap(game, i, j);
+            i++;
+            j--;
+        }
+    }
+    if (esq < j) quickSort(game, esq, j);
+    if (i < dir) quickSort(game, i, dir);
+}
+
+int pesquisaBinaria(Game game[], int esq, int dir, int x) {
+    if (esq > dir) return -1;
+    int meio = (esq + dir) / 2;
+    if (game[meio].id == x) return meio;
+    else if (game[meio].id < x) return pesquisaBinaria(game, meio + 1, dir, x);
+    else return pesquisaBinaria(game, esq, meio - 1, x);
+}
+
+
 int main() {
-    FILE *arq = fopen("/tmp/games.csv", "r");
+    FILE *arq = fopen("tmp/games.csv", "r");
     if (!arq) {
         fprintf(stderr, "Erro ao abrir o arquivo '/tmp/games.csv'\n");
       
@@ -444,7 +477,7 @@ int main() {
         }
         fclose(arq);
     }
-
+    quickSort(game, 0, jogos-1);
     ArvoreAVL *arvore = criarArvore();
 
    
@@ -453,13 +486,13 @@ int main() {
         line[strcspn(line, "\r\n")] = '\0';
         if (strcmp(line, "FIM") == 0) break;
         int idBusca = atoi(line);
-        for (int i = 0; i < jogos; i++) {
-            if (idBusca == game[i].id) {
-                inserir(game[i], arvore);
-                break;
-            }
-        }
+           idBusca=  pesquisaBinaria(game, 0, jogos-1, idBusca);
+            
+                inserir(game[idBusca], arvore);
+
     }
+        
+    
 
    
     clock_t inicio = clock();
