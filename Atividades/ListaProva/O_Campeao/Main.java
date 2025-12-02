@@ -30,8 +30,12 @@ class Campeonato{
 
     public void getGanhador(){
         ordenar();
-        System.out.println("O time ganhador foi " + times[0].getNome()+ " com " + times[0].getPontos());
-
+        String nome = times[0].getNome();
+        if(nome.compareTo("Sport")==0){
+            System.out.println("O "+ nome + " foi o campeao com " + times[0].getPontos()+ " pontos :D");
+        }else{
+            System.out.println("O Sport nao foi o campeao. O time campeao foi o " + nome + " com " + times[0].getPontos() + " :(");
+        }
        }
 
     public void Inserir(int i, String nome, int pontos){
