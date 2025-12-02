@@ -1,0 +1,18 @@
+4
+Treze 20
+Campinense 35
+Fortaleza 25
+Sport 20
+Sport 4-0 Campinense
+Fortaleza 2-2 Treze
+6
+Bahia 42
+Sport 43
+Vitoria 41
+Fortaleza 32
+Ceara 33
+Campinense 22
+Sport 2-0 Bahia
+Vitoria 3-1 Ceara
+Campinense 2-1 Fortaleza
+0
