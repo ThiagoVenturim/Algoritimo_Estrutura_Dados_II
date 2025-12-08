@@ -1,0 +1,28 @@
+Antes, zero elementos. Agora, raiz(4).
+[ 4(b) ]
+Antes, um elemento. Agora, raiz(4) e dir(35).
+[ 4(b) 35(b) ]
+Antes, dois elementos(B). Agora, raiz(10), esq (4) e dir(35).
+[ 10(b) 4(b) 35(b) ]
+Arvore com tres ou mais elementos...
+[ 10(b) 4(b) 35(b) 13(p) ]
+Arvore com tres ou mais elementos...
+[ 10(b) 4(b) 3(p) 35(b) 13(p) ]
+Arvore com tres ou mais elementos...
+Rotacao ESQ(13)
+Rotacao DIR(35)
+Reestabeler cores: avo(30->branco) e avo.esq / avo.dir(13,35-> pretos)
+[ 10(b) 4(b) 3(p) 30(b) 13(p) 35(p) ]
+Arvore com tres ou mais elementos...
+[ 10(b) 4(b) 3(p) 30(p) 13(b) 15(p) 35(b) ]
+Arvore com tres ou mais elementos...
+[ 10(b) 4(b) 3(p) 30(p) 13(b) 12(p) 15(p) 35(b) ]
+Arvore com tres ou mais elementos...
+[ 10(b) 4(b) 3(p) 7(p) 30(p) 13(b) 12(p) 15(p) 35(b) ]
+Arvore com tres ou mais elementos...
+[ 10(b) 4(b) 3(p) 7(p) 30(p) 13(b) 12(p) 15(p) 35(b) 40(p) ]
+Arvore com tres ou mais elementos...
+Rotacao DIR(30)
+Rotacao ESQ(10)
+Reestabeler cores: avo(13->branco) e avo.esq / avo.dir(10,30-> pretos)
+[ 13(b) 10(p) 4(b) 3(p) 7(p) 12(b) 30(p) 15(b) 20(p) 35(b) 40(p) ]

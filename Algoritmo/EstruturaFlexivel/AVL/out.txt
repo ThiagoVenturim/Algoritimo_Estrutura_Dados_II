@@ -1,0 +1,20 @@
+Inserindo -> 1
+Caminhar Pre: 1 
+Inserindo -> 2
+Caminhar Pre: 1 2 
+Inserindo -> 3
+Caminhar Pre: 2 1 3 
+Inserindo -> 4
+Caminhar Pre: 2 1 3 4 
+Inserindo -> 5
+Caminhar Pre: 2 1 4 3 5 
+Inserindo -> 6
+Caminhar Pre: 4 2 1 3 5 6 
+Inserindo -> 7
+Caminhar Pre: 4 2 1 3 6 5 7 
+Inserindo -> 8
+Caminhar Pre: 4 2 1 3 6 5 7 8 
+Inserindo -> 9
+Caminhar Pre: 4 2 1 3 6 5 8 7 9 
+Inserindo -> 10
+Caminhar Pre: 4 2 1 3 8 6 5 7 9 10 

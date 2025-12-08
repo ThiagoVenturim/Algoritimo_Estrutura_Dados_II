@@ -1,0 +1,3 @@
+Log gerado em 08/12/2025 17:44:33
+comparar: 151
+movimentacoes: 200

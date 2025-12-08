@@ -1,5 +1,7 @@
 import java.util.*;
 
+import Algoritmo.Hash.IndiretoLista.Celula;
+
 
 class Contato{
     public String telefone;
