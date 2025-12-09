@@ -258,54 +258,60 @@ class Leitura extends Game {
     }
 }
 class HashReserva {
-    private Leitura[] tabela;
-    private int m1 = 21;   
-    private int m2 = 9;    
-    private int reserva = 0;
-    private final int m = m1 + m2;
+    private String[] tabela;
+ 
 
-    public HashReserva() {
-        tabela = new Leitura[m];
-    }
-
-    public int h(String nome) {
-        if (nome == null) return 0; 
-        int soma = 0;
-        for (int i = 0; i < nome.length(); i++)
-            soma += (int) nome.charAt(i);
-        return soma % m1;
-    }
-
-    public boolean inserir(Leitura game) {
-        if (game == null || game.getName() == null) return false;
-        int pos = h(game.getName());
-        if (tabela[pos] == null) {
-            tabela[pos] = game;
-            return true;
-        } else if (reserva < m2) {
-            tabela[m1 + reserva] = game;
-            reserva++;
-            return true;
+    public HashReserva(int tamanho) {
+        tabela = new String[tamanho];
+        for (int i=0; i<tabela.length; i++){
+            tabela[i]=null;
         }
-        return false;
     }
 
-    public int pesquisarPosicao(String nome) {
-        if (nome == null) return -1;
-        int pos = h(nome);
-        if (tabela[pos] != null && tabela[pos].getName().equals(nome)) {
-            return pos;
-        } else {
-            for (int i = 0; i < reserva; i++) {
-                if (tabela[m1 + i] != null && tabela[m1 + i].getName().equals(nome))
-                    return m1 + i;
+    public int hash(String elemento){
+        int soma=0;
+        for(int i=0;i<elemento.length();i++){
+            soma+=(int)elemento.charAt(i);
+        }
+        return soma %21; 
+    }
+
+    public void inserir(String elemento){
+        int index = hash(elemento);
+        if(tabela[index]==null){
+            tabela[index]=elemento;
+            //System.out.println(tabela[index] );
+        }else{
+            for(int i=21;i<30;i++){
+                if(tabela[i]==null){
+                    tabela[i]=elemento;
+                    //System.out.println(tabela[i] );
+                    i=30;                    
+                }
             }
         }
-        return -1;
     }
 
-    public boolean pesquisar(String nome) {
-        return pesquisarPosicao(nome) != -1;
+    public void pesquisa(String s){
+        int index=hash(s);
+        boolean flag=false;
+        int posicaoEncontrada=index;
+
+        if(tabela[index]!=null && tabela[index].compareToIgnoreCase(s)==0){
+            flag=true;
+            posicaoEncontrada=index;
+        }else{
+            for(int i=21;i<30;i++){
+                if(tabela[i] != null && tabela[i].compareToIgnoreCase(s)==0){
+                    flag=true;
+                    posicaoEncontrada=i;
+                    i=30;
+                }
+            }
+        }
+        System.out.print(" (Posicao: "+posicaoEncontrada+") ");
+        if(flag) System.out.println("SIM");
+        else System.out.println("NAO");
     }
 }
 
@@ -319,7 +325,7 @@ public class MainHD {
         if (scfile.hasNextLine())
             scfile.nextLine();
 
-        HashReserva hash = new HashReserva();
+        HashReserva hash = new HashReserva(30);
         Leitura[] array = new Leitura[1850];
         Function func = new Function();
         int tamanho = 0;
@@ -336,7 +342,7 @@ public class MainHD {
         while (!linha.equals("FIM")) {
             int x = func.tranformarInt(linha);
             if (x >= 0 && x < tamanho) {
-                hash.inserir(array[x]);
+                hash.inserir(array[x].getName());
             }
             linha = scanner.nextLine();
         }
@@ -346,12 +352,8 @@ public class MainHD {
         // Pesquisas de nomes
         linha = scanner.nextLine();
         while (!linha.equals("FIM")) {
-            int pos = hash.pesquisarPosicao(linha);
-            if (pos != -1) {
-                System.out.println(linha + ":  (Posicao: " + pos + ") SIM");
-            } else {
-                System.out.println(linha + ":  (Posicao: " + hash.h(linha) + ") NAO");
-            }
+            System.out.print(linha + ": ");
+            hash.pesquisa(linha);
             linha = scanner.nextLine();
         }
 

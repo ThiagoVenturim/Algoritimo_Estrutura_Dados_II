@@ -260,69 +260,78 @@ class Leitura extends Game {
 
 class HashRehash {
     private String[] tabela;
-    private final int tamTab = 21;
+    private int tamanho;
 
-    public HashRehash() {
-        tabela = new String[tamTab];
-        for (int i = 0; i < tamTab; i++) {
-            tabela[i] = null;
+    public HashRehash(int tamanho) {
+        tabela = new String[tamanho];
+        for (int i=0; i<tabela.length; i++){
+            tabela[i]=null;
         }
+        this.tamanho=21;
     }
 
-
-    private int h(String nome) {
+    public int hash(String elemento){
+        int soma=0;
+        for(int i=0;i<elemento.length();i++){
+            soma+=(int)elemento.charAt(i);
+        }
+        return soma %tamanho; 
+    }
+    
+    public int rehash(String elemento) {
         int soma = 0;
-        for (int i = 0; i < nome.length(); i++)
-            soma += (int) nome.charAt(i);
-        return soma % tamTab;
-    }
-
-
-    private int rehash(int pos) {
-        return (pos + 1) % tamTab;
-    }
-
-    public boolean inserir(String nome) {
-        if (nome == null) return false;
-        int pos = h(nome);
-
-        if (tabela[pos] == null) {
-            tabela[pos] = nome;
-            return true;
+        for (int i = 0; i < elemento.length(); i++) {
+            soma += (int) elemento.charAt(i);
         }
+        return (soma + 1) % tamanho;
+    }
 
-      
-        int inicio = pos;
-        do {
-            pos = rehash(pos);
-            if (tabela[pos] == null) {
-                tabela[pos] = nome;
-                return true;
+    public void inserir(String elemento) {
+        int index = hash(elemento);
+        if (tabela[index] == null) {
+            tabela[index] = elemento;
+        } 
+        else {
+            int indeX = rehash(elemento);
+            if (tabela[indeX] == null) {
+                tabela[indeX] = elemento;
+            } 
+            else {
+                for (int i = 21; i < 30; i++) {
+                    if (tabela[i] == null) {
+                        tabela[i] = elemento;
+                        i=30;
+                    }
+                }
             }
-        } while (pos != inicio);
-
-        return false;
+        }
     }
 
-    public int pesquisarPosicao(String nome) {
-        int pos = h(nome);
-        int inicio = pos;
 
-        do {
-            if (tabela[pos] != null && tabela[pos].compareToIgnoreCase(nome)==0)
-                return pos;
-            pos = rehash(pos);
-        } while (pos != inicio);
+    public void pesquisa(String elemento){
+        int index=hash(elemento);
+         int indeX = rehash(elemento);
+        boolean flag=false;
+        int posicaoEncontrada=index;
 
-        return -1; 
-    }
-
-    public boolean pesquisar(String nome) {
-        return pesquisarPosicao(nome) != -1;
-    }
-
-    public int hashOriginal(String nome) {
-        return h(nome);
+        if(tabela[index]!=null && tabela[index].compareToIgnoreCase(elemento)==0){
+            flag=true;
+            posicaoEncontrada=index;
+        } else if (tabela[indeX] != null && tabela[indeX].compareToIgnoreCase(elemento)==0) {
+            flag = true;
+            posicaoEncontrada = indeX;
+        }else{
+            for(int i=21;i<30;i++){
+                if(tabela[i] != null && tabela[i].compareToIgnoreCase(elemento)==0){
+                    flag=true;
+                    posicaoEncontrada=i;
+                    i=30;
+                }
+            }
+        }
+        System.out.print(" (Posicao: "+posicaoEncontrada+") ");
+        if(flag) System.out.println("SIM");
+        else System.out.println("NAO");
     }
 }
 
@@ -349,14 +358,14 @@ public class MainHDR {
         }
 
        
-        HashRehash hash = new HashRehash();
+        HashRehash hash = new HashRehash(30);
 
       String linha = scanner.nextLine();
         while (!linha.equals("FIM")) {
             int x = func.tranformarInt(linha);
             int pos = func.pesquisaBinaria(array, x, 0, tamanho - 1);
             if (pos != -1) {
-                hash.inserir(linha);
+                hash.inserir(array[pos].getName());
             }
             linha = scanner.nextLine();
         }
@@ -366,12 +375,8 @@ public class MainHDR {
        
         linha = scanner.nextLine();
         while (!linha.equals("FIM")) {
-            int pos = hash.pesquisarPosicao(linha);
-            if (pos != -1) {
-                System.out.println(linha + ":  (Posicao: " + pos + ") SIM");
-            } else {
-                System.out.println(linha + ":  (Posicao: " + hash.hashOriginal(linha) + ") NAO");
-            }
+            System.out.print(linha + ": ");
+            hash.pesquisa(linha);
             linha = scanner.nextLine();
         }
 
