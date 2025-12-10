@@ -84,6 +84,25 @@ class ArvoreBinaria{
         }
     }
 
+    public int contarNosNaoBalanceados(){
+        return contar(raiz);
+    }
+
+    public int contar(No raiz){
+        int count=0;
+        if(raiz!=null){
+            int esq = getTamanho(raiz.esq, 0);
+            int dir= getTamanho(raiz.dir, 0);
+
+            if(Math.abs(dir-esq)>1){
+                count=1;    
+            }
+            count+= contar(raiz.esq);
+            count+= contar(raiz.dir);
+        }
+        return count;
+    }
+
     private int getTamanho(No i, int cont){
         if(i==null){
            cont --; 
@@ -178,7 +197,7 @@ public class ArvoreBinariaMain{
         System.out.println("Tamanho:  " + av.getTamanho());
         System.out.println("Maior:  " + av.getMaior());
         System.out.println("Quantidade de Nos:  " + av.getNumeroNo());
-        System.out.println("Maior Circunferencia :  " + av.getCincunferenciaNivel());
+        System.out.println("Nos nao balanceados: " + av.contarNosNaoBalanceados());
         scanner.close();
     }
 }
