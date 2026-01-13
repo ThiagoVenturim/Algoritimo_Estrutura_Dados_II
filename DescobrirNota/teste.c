@@ -100,6 +100,9 @@ float calculaDesempenho(Prova* p, float tps){
 
 	//Fórmula de calculo do desempenho (duasMaioresProvas/40) * (tps/20) * fatorQuiz * 15
 	resp = desempenhoProvas * desempenhoTps * fatorQuiz * 15;
+	if(resp>15){
+		resp=15;
+	}
 
 	free(maioresProvas);
 
