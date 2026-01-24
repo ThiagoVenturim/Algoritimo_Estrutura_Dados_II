@@ -34,14 +34,12 @@ class Participante{
             litros -= consumo;
             ganhador++;
         }
-       System.out.println(name[ganhador] + litros);
+       System.out.printf("%s %.2f",name[ganhador] , litros);
     } 
-
 }
    
 
  class Main{
-
     public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
 
